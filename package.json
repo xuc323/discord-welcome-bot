@@ -9,6 +9,7 @@
     "clean": "turbo clean"
   },
   "devDependencies": {
+    "@repo/typescript-config": "*",
     "turbo": "^1.12.4"
   },
   "workspaces": [

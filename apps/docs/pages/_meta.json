@@ -1,0 +1,10 @@
+{
+  "index": "Introduction",
+  "host": "Hosting",
+  "general": "General Commands",
+  "music": "Music Commands",
+  "about": {
+    "title": "About",
+    "type": "page"
+  }
+}

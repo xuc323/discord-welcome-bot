@@ -1,0 +1,102 @@
+# Getting Started
+
+Discord bot user requires websocket connection, therefore modern serverless approach won't apply here. You will need a virtual machine to self host your bot.
+
+## Requirements
+
+#### Software
+
+- `Node.js >= 16`
+- `npm >= 9`
+- `pm2` (optional)
+
+#### Hardware
+
+- `CPU >= 1GHz`
+- `RAM >= 512MB`
+
+## Installation
+
+import { Steps } from "nextra-theme-docs";
+
+<Steps>
+
+### Clone the repository
+
+```bash copy
+git clone https://github.com/xuc323/discord-bot
+```
+
+### Install dependencies
+
+```bash copy
+cd discord-bot
+npm install
+```
+
+### Configurations
+
+Create a `.env` file in the root directory of the project and fill in the following fields:
+
+```bash copy
+# .env
+DISCORD_TOKEN=YOUR_TOKEN
+DATABASE_URL=POSTGRES_DATABASE_URL
+PREFIX=!
+```
+
+Format for `DATABASE_URL`. Here we are using postgresql as our database:
+
+```bash copy
+postgres://{user}:{password}@{host}:{port}/{database}
+```
+
+### Run the bot
+
+```bash copy
+npm run build
+npm run start
+```
+
+</Steps>
+
+## Cleanup
+
+```bash copy
+npm run clean
+```
+
+## pm2 (optional)
+
+Bot will be terminated when you close the terminal. To keep the bot running in the background, you can use a node runtime such as `pm2` to manage the process.
+
+```bash copy
+pm2 start npm --name "discord-bot" -- run start
+```
+
+For easier startup, you can also create a `ecosystem.config.js` file in the root directory of the project and fill in the following fields:
+
+```js copy
+module.exports = {
+  apps: [
+    {
+      name: "discord-bot",
+      script: "npm",
+      args: "run start",
+      time: true,
+    },
+  ],
+};
+```
+
+Then you can start the bot with:
+
+```bash copy
+pm2 start ecosystem.config.js
+```
+
+Or if you have a few apps within the same file:
+
+```bash copy
+pm2 start ecosystem.config.js --only discord-bot
+```
