@@ -1,7 +1,18 @@
 {
   "name": "@repo/database",
   "version": "0.0.1",
+  "scripts": {
+    "pg:generate": "drizzle-kit generate:pg",
+    "pg:migrate": "ts-node migrate.ts"
+  },
   "dependencies": {
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.29.4",
     "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.20.14",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   }
 }
