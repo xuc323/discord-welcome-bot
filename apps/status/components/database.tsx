@@ -1,3 +1,6 @@
-import { Database } from "@repo/database";
+import { Database, PermissionEnum } from "@repo/database";
 
-export const postgres = new Database(process.env.DATABASE_URL);
+export const postgres = new Database(
+  process.env.DATABASE_URL!,
+  PermissionEnum.READ
+);

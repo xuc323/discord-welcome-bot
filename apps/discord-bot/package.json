@@ -17,7 +17,8 @@
   "dependencies": {
     "@discordjs/opus": "^0.9.0",
     "@discordjs/voice": "^0.16.1",
-    "@jadestudios/discord-music-player": "^9.1.1-az26",
+    "@jadestudios/discord-music-player": "^9.1.1-az27",
+    "@repo/database": "*",
     "discord.js": "^14.14.1",
     "dotenv": "^16.4.5",
     "pg": "^8.11.3"

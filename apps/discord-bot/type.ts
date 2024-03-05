@@ -1,4 +1,5 @@
 import { Player, PlayerEvents } from "@jadestudios/discord-music-player";
+import { Database } from "@repo/database";
 import {
   Client,
   Collection,
@@ -6,7 +7,6 @@ import {
   Message,
   SlashCommandBuilder,
 } from "discord.js";
-import Database from "./database";
 
 export interface MyClient extends Client {
   player?: Player;

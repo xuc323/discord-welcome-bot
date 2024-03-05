@@ -1,45 +1,45 @@
 import { Pool } from "pg";
 import { NodePgDatabase, drizzle } from "drizzle-orm/node-postgres";
-import { desc, eq } from "drizzle-orm";
-import { requests, songs, users } from "./config";
+
+export enum PermissionEnum {
+  NULL,
+  READ,
+  READANDWRITE,
+}
 
 export class Database {
-  private db: NodePgDatabase;
+  public postgres: NodePgDatabase;
+  public readonly permission;
 
-  constructor(url?: string) {
+  constructor(url: string, perm: PermissionEnum = PermissionEnum.NULL) {
     const pool = new Pool({
       connectionString: url,
     });
 
-    this.db = drizzle(pool);
-  }
-
-  async selectAllSongsOrderByTime() {
-    const data = await this.db
-      .select({
-        name: songs.name,
-        url: songs.url,
-        author: songs.author,
-        requestedOn: requests.date,
-      })
-      .from(requests)
-      .leftJoin(songs, eq(requests.suid, songs.suid))
-      .orderBy(desc(requests.date));
-
-    return data;
-  }
-
-  async insertSongRequest(
-    username: string,
-    discriminator: string,
-    userId: bigint
-  ) {
-    await this.db.transaction(async (tx) => {
-      await tx.insert(users).values({
-        username: username,
-        discriminator: discriminator,
-        userId: userId,
-      });
-    });
+    this.postgres = drizzle(pool);
+    this.permission = perm;
   }
 }
+
+export enum DatabaseErrorEnum {
+  NULL,
+  PERMISSION,
+  NODATA,
+  PARAMETER,
+}
+
+export class DatabaseError extends Error {
+  public readonly reason?: DatabaseErrorEnum;
+
+  constructor(
+    message: string,
+    reason: DatabaseErrorEnum = DatabaseErrorEnum.NULL
+  ) {
+    super(message);
+    this.name = "DatabaseError";
+    this.reason = reason;
+  }
+}
+
+export * from "./helpers";
+export * from "./config";

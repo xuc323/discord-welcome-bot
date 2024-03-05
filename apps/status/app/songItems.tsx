@@ -1,8 +1,9 @@
 import { postgres } from "@/components/database";
+import { selectAllSongsOrderByRequestTime } from "@repo/database";
 import Link from "next/link";
 
 export default async function SongItems() {
-  const rows = await postgres.selectAllSongsOrderByTime();
+  const rows = await selectAllSongsOrderByRequestTime(postgres);
 
   return (
     <tbody>

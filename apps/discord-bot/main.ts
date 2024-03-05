@@ -10,12 +10,11 @@ import fs from "node:fs";
 import path from "node:path";
 // import music player module
 import { Player } from "@jadestudios/discord-music-player";
-// import database module
-// import Database from "./database";
 // dotenv file
 import "dotenv/config";
-
 import { Command, Event, MyClient, PlayerEvent, SlashCommand } from "./type";
+// postgres database
+import { Database, PermissionEnum } from "@repo/database";
 
 /**
  * START CREATING BOT CLIENT
@@ -108,7 +107,10 @@ for (const file of musicEventFiles) {
  * START CREATING POSTGRES DATABASE CLIENT
  */
 // create an instance of database and attach to bot client
-// client.postgres = new Database(process.env.DATABASE_URL);
+client.postgres = new Database(
+  process.env.DATABASE_URL!,
+  PermissionEnum.READANDWRITE
+);
 /**
  * END CREATING POSTGRES DATABASE CLIENT
  */
