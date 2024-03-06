@@ -1,7 +1,12 @@
 {
   "name": "@repo/database",
   "version": "0.0.1",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "npm run build -- --watch",
     "pg:generate": "drizzle-kit generate:pg",
     "pg:migrate": "ts-node migrate.ts"
   },
@@ -14,6 +19,7 @@
     "@repo/typescript-config": "*",
     "drizzle-kit": "^0.20.14",
     "ts-node": "^10.9.2",
+    "tsup": "^8.0.2",
     "typescript": "^5.3.3"
   }
 }

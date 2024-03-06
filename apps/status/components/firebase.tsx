@@ -1,3 +1,5 @@
+"use client";
+
 // Import the functions you need from the SDKs you need
 import { getApps, initializeApp, registerVersion } from "firebase/app";
 import type { FirebaseApp, FirebaseOptions } from "firebase/app";

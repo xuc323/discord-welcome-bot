@@ -47,14 +47,15 @@ for (const folder of commandFolders) {
   // loop through all .ts files
   for (const file of commandFiles) {
     const commandFilePath = path.join(commandSubFolderPath, file);
-    const {
-      basic,
-      slash,
-    }: { basic: Command; slash: SlashCommand } = require(commandFilePath);
-    client.commands.set(basic.name, basic);
-    if (slash) {
-      client.slashCommands.set(slash.data.name, slash);
-    }
+
+    import(commandFilePath).then(
+      ({ basic, slash }: { basic: Command; slash: SlashCommand }) => {
+        client.commands?.set(basic.name, basic);
+        if (slash) {
+          client.slashCommands?.set(slash.data.name, slash);
+        }
+      }
+    );
   }
 }
 
@@ -65,12 +66,15 @@ const eventFiles = fs
   .filter((file) => file.endsWith(".js") || file.endsWith(".ts"));
 for (const file of eventFiles) {
   const eventFilePath = path.join(eventFolderPath, file);
-  const { event }: { event: Event } = require(eventFilePath);
-  if (event.once) {
-    client.once(event.name, (...args) => event.execute(client, ...args));
-  } else {
-    client.on(event.name, (...args) => event.execute(client, ...args));
-  }
+
+  // dynamically import the events
+  import(eventFilePath).then(({ event }: { event: Event }) => {
+    if (event.once) {
+      client.once(event.name, (...args) => event.execute(client, ...args));
+    } else {
+      client.on(event.name, (...args) => event.execute(client, ...args));
+    }
+  });
 }
 
 /**
@@ -96,8 +100,11 @@ const musicEventFiles = fs
   .filter((file) => file.endsWith(".js") || file.endsWith(".ts"));
 for (const file of musicEventFiles) {
   const musicEventFilePath = path.join(musicEventFolderPath, file);
-  const { event }: { event: PlayerEvent } = require(musicEventFilePath);
-  client.player?.on(event.name, (...args) => event.execute(client, ...args));
+
+  // dynamically import the music events
+  import(musicEventFilePath).then(({ event }: { event: PlayerEvent }) => {
+    client.player?.on(event.name, (...args) => event.execute(client, ...args));
+  });
 }
 /**
  * END CREATING PLAYER CLIENT

@@ -14,7 +14,7 @@ const main = async () => {
     console.log("Start migration process...");
 
     await migrate(db, {
-      migrationsFolder: "./config/migrations",
+      migrationsFolder: "./migrations",
     });
 
     console.log("Migration successful");
