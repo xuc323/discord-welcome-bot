@@ -1,5 +1,4 @@
 import { Queue, Song } from "@jadestudios/discord-music-player";
-import { TextChannel } from "discord.js";
 import { MyClient, PlayerEvent, QueueData } from "../type";
 import { insertSongRequestWithTransaction } from "@repo/database";
 
@@ -11,9 +10,7 @@ export const event: PlayerEvent = {
     newSong: Song,
     oldSong: Song
   ) {
-    (queue.data?.msgChannel as TextChannel).send(
-      `**${newSong}** is now playing.`
-    );
+    queue.data?.msgChannel.send(`**${newSong}** is now playing.`);
 
     insertSongRequestWithTransaction(client.postgres!, {
       guildId: BigInt(queue.guild.id),

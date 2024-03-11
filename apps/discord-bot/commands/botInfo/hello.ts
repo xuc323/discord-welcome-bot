@@ -1,10 +1,4 @@
-import {
-  CommandInteraction,
-  Events,
-  Message,
-  SlashCommandBuilder,
-  TextChannel,
-} from "discord.js";
+import { CommandInteraction, Message, SlashCommandBuilder } from "discord.js";
 import { Command, MyClient, SlashCommand } from "../../type";
 
 export const basic: Command = {
@@ -13,8 +7,7 @@ export const basic: Command = {
   args: false,
   aliases: ["hi"],
   execute(message: Message, args: string[], client: MyClient) {
-    (message.channel as TextChannel).send(`Hi, ${message.author.username}!`);
-    client.on(Events.InteractionCreate, (c) => {});
+    message.channel.send(`Hi, ${message.author.username}!`);
   },
 };
 

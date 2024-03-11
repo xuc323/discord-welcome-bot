@@ -3,7 +3,6 @@ import {
   EmbedBuilder,
   Message,
   SlashCommandBuilder,
-  TextChannel,
 } from "discord.js";
 import { Command, MyClient, SlashCommand } from "../../type";
 
@@ -26,7 +25,7 @@ export const basic: Command = {
           value: createdAt.toString(),
         },
       ]);
-    (message.channel as TextChannel).send({ embeds: [emb] });
+    message.channel.send({ embeds: [emb] });
   },
 };
 

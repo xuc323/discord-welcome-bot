@@ -5,8 +5,8 @@
   "main": "main.ts",
   "scripts": {
     "start": "node ./build/main.js",
-    "dev": "ts-node main.ts",
-    "test": "nodemon main.ts",
+    "dev": "nodemon main.ts",
+    "test": "ts-node main.ts",
     "build": "tsc",
     "deploy": "ts-node deploy.ts",
     "clean": "rm -rf ./build"
@@ -25,10 +25,10 @@
   },
   "devDependencies": {
     "@repo/typescript-config": "*",
-    "@types/node": "^20.11.24",
+    "@types/node": "^20.11.25",
     "@types/pg": "^8.11.2",
     "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   }
 }

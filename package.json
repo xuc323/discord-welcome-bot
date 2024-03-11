@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "build": "turbo build",
-    "build:bot": "turbo build --filter=discord-bot, --filter=@repo/database --filter=@repo/music-player",
+    "build:bot": "turbo build --filter=discord-bot --filter=@repo/database --filter=@repo/music-player",
     "dev": "turbo dev",
     "dev:bot": "turbo dev --filter=discord-bot --filter=@repo/database",
     "lint": "turbo lint",

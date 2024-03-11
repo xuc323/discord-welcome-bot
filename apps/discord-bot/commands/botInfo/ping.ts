@@ -1,9 +1,4 @@
-import {
-  CommandInteraction,
-  Message,
-  SlashCommandBuilder,
-  TextChannel,
-} from "discord.js";
+import { CommandInteraction, Message, SlashCommandBuilder } from "discord.js";
 import { Command, MyClient, SlashCommand } from "../../type";
 
 export const basic: Command = {
@@ -14,7 +9,7 @@ export const basic: Command = {
     // create ping
     const ping = client.ws.ping;
     // send the placeholder
-    (message.channel as TextChannel).send("Pinging...").then((sent) => {
+    message.channel.send("Pinging...").then((sent) => {
       // modify the message with latency status
       sent.edit(
         `Websocket heartbeat: ${ping}ms.\nRoundtrip latency: ${

@@ -1,4 +1,4 @@
-import { Message, TextChannel } from "discord.js";
+import { Message } from "discord.js";
 import { Command, MyClient } from "../../type";
 
 export const basic: Command = {
@@ -6,7 +6,7 @@ export const basic: Command = {
   description: "(dev)",
   args: false,
   execute(message: Message, args: string[], client: MyClient) {
-    (message.channel as TextChannel).send(
+    message.channel.send(
       "This command is currently under development, check back later!"
     );
   },

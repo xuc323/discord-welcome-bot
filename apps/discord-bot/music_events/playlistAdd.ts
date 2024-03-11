@@ -1,11 +1,10 @@
 import { Playlist, Queue } from "@jadestudios/discord-music-player";
-import { TextChannel } from "discord.js";
 import { MyClient, PlayerEvent, QueueData } from "../type";
 
 export const event: PlayerEvent = {
   name: "playlistAdd",
   execute(client: MyClient, queue: Queue<QueueData>, playlist: Playlist) {
-    (queue.data?.msgChannel as TextChannel).send(
+    queue.data?.msgChannel.send(
       `**${playlist.name}** has been added to the queue.\n${playlist.url}`
     );
     console.log(

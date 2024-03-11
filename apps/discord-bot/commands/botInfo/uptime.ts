@@ -1,4 +1,4 @@
-import { Message, TextChannel } from "discord.js";
+import { Message } from "discord.js";
 import { Command, MyClient } from "../../type";
 
 export const basic: Command = {
@@ -37,7 +37,7 @@ export const basic: Command = {
       str.push(seconds + "s");
     }
 
-    (message.channel as TextChannel).send(
+    message.channel.send(
       `**${client.user?.username}** has been up for ${str.join(" ")}.`
     );
   },

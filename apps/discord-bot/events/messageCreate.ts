@@ -9,10 +9,10 @@ export const event: Event = {
     if (!message.content.startsWith(prefix) || message.author.bot) {
       return;
     }
-    // if commands are sent through dm
-    if (!message.guild) {
-      return (message.channel as TextChannel).send(
-        "Commands can only be executed in one of the channels."
+    // if commands are not sent through text channels
+    if (!(message.channel instanceof TextChannel)) {
+      return message.channel.send(
+        "Commands can only be executed in TextChannel."
       );
     }
 
@@ -32,7 +32,7 @@ export const event: Event = {
 
     // if unknown command
     if (!command) {
-      return (message.channel as TextChannel).send(
+      return message.channel.send(
         `Unknown command: \`${message.content}\`. Type \`${prefix}help\` for more information.`
       );
     }
@@ -43,7 +43,7 @@ export const event: Event = {
       if (command.usage) {
         reply += `\nThe proper usage is: \`${prefix}${command.name} ${command.usage}\``;
       }
-      return (message.channel as TextChannel).send(reply);
+      return message.channel.send(reply);
     }
 
     // execute command
@@ -51,7 +51,7 @@ export const event: Event = {
       command.execute(message, args, client);
     } catch (error) {
       console.log(`BOT ERROR: ${error}`);
-      (message.channel as TextChannel).send(
+      message.channel.send(
         "There was an error trying to execute that command.."
       );
     }

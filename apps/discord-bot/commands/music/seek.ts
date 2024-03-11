@@ -1,5 +1,5 @@
 import { DMPError } from "@jadestudios/discord-music-player";
-import { Message, TextChannel } from "discord.js";
+import { Message } from "discord.js";
 import { Command, MyClient } from "../../type";
 
 export const basic: Command = {
@@ -15,7 +15,7 @@ export const basic: Command = {
       // the queue exists
       if (queue.connection?.channel != message.member?.voice.channel) {
         // the user is not in the same voice channel as the bot
-        return (message.channel as TextChannel).send(
+        return message.channel.send(
           `Music is playing in ${queue.connection?.channel}. Join or wait for it to finish.`
         );
       }
@@ -23,33 +23,27 @@ export const basic: Command = {
       // the user is in the same voice channel as the bot
       const time = Number(args[0]);
       if (!time && time != 0) {
-        return (message.channel as TextChannel).send(
-          "Only numbers are allowed.."
-        );
+        return message.channel.send("Only numbers are allowed..");
       } else if (time < 0) {
-        return (message.channel as TextChannel).send(
-          "Time needs to be greater than 0."
-        );
+        return message.channel.send("Time needs to be greater than 0.");
       }
 
       try {
         const status = await queue.seek(time * 1000);
         if (status) {
-          (message.channel as TextChannel).send(
-            `MUSIC STATUS: Fast forwarded ${time} seconds.`
-          );
+          message.channel.send(`MUSIC STATUS: Fast forwarded ${time} seconds.`);
         } else {
-          (message.channel as TextChannel).send(
+          message.channel.send(
             "ERROR: Failed to fast forward. Try again later."
           );
         }
       } catch (err) {
         const error = err as DMPError;
-        (message.channel as TextChannel).send(error.message);
+        message.channel.send(error.message);
       }
     } else {
       // the queue doesn't exist
-      (message.channel as TextChannel).send(
+      message.channel.send(
         `WARNING: Queue is empty, can't perform \`${this.name}\`.`
       );
     }

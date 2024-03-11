@@ -1,4 +1,4 @@
-import { Message, TextChannel } from "discord.js";
+import { Message } from "discord.js";
 import { Command, MyClient } from "../../type";
 const prefix = process.env.PREFIX ?? "!";
 
@@ -40,7 +40,7 @@ export const basic: Command = {
 
       if (!command) {
         // the command doesn't exist, send error message to channel
-        return (message.channel as TextChannel).send(
+        return message.channel.send(
           `\`${args[0]}\` is not a valid command. Type \`${prefix}${this.name}\` for more information.`
         );
       }
@@ -64,6 +64,6 @@ export const basic: Command = {
       }
     }
     // send the message to the channel
-    (message.channel as TextChannel).send(data.join("\n"));
+    message.channel.send(data.join("\n"));
   },
 };
