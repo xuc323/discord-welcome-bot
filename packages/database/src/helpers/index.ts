@@ -8,7 +8,11 @@ type User = { username: string; discriminator: string; userId: bigint };
 
 type Song = { songName: string; songUrl: string; songAuthor: string };
 
-export async function selectAllSongsOrderByRequestTime(db: Database) {
+export async function selectAllSongsOrderByRequestTime(
+  db: Database,
+  limit: number = 25,
+  offset: number = 0
+) {
   if (db.permission === PermissionEnum.NULL) {
     throw new DatabaseError(
       `You need ${
@@ -27,7 +31,9 @@ export async function selectAllSongsOrderByRequestTime(db: Database) {
     })
     .from(requests)
     .leftJoin(songs, eq(requests.suid, songs.suid))
-    .orderBy(desc(requests.date));
+    .orderBy(desc(requests.date))
+    .limit(limit)
+    .offset(offset);
 
   return data;
 }
@@ -36,16 +42,9 @@ export async function insertSongRequestWithTransaction(
   db: Database,
   data: Guild & Song & User
 ) {
-  if (db.permission === PermissionEnum.NULL) {
-    throw new DatabaseError(
-      `You need ${
-        PermissionEnum[PermissionEnum.READANDWRITE]
-      } permission to execute this function.`,
-      DatabaseErrorEnum.PERMISSION
-    );
-  }
-
+  // start an insertion transaction
   await db.postgres.transaction(async (tx) => {
+    // insert to users table
     const userRes = await tx
       .insert(users)
       .values({
@@ -59,6 +58,7 @@ export async function insertSongRequestWithTransaction(
       })
       .returning({ uuid: users.uuid });
 
+    // insert to guilds table
     const guildRes = await tx
       .insert(guilds)
       .values({ guildId: data.guildId, name: data.guildName })
@@ -68,6 +68,7 @@ export async function insertSongRequestWithTransaction(
       })
       .returning({ guid: guilds.guid });
 
+    // insert to songs table
     const songRes = await tx
       .insert(songs)
       .values({
@@ -81,10 +82,35 @@ export async function insertSongRequestWithTransaction(
       })
       .returning({ suid: songs.suid });
 
+    // insert to requests table
     await tx.insert(requests).values({
       guid: guildRes.at(0)!.guid,
       suid: songRes.at(0)!.suid,
       uuid: userRes.at(0)!.uuid,
     });
   });
+}
+
+export async function selectRecentSongsInGuildOrderByRequestTime(
+  db: Database,
+  guildId: bigint,
+  limit: number = 5
+) {
+  const data = await db.postgres
+    .select({
+      name: songs.name,
+      author: songs.author,
+      url: songs.url,
+      userId: users.userId,
+      requestedOn: requests.date,
+    })
+    .from(requests)
+    .innerJoin(guilds, eq(requests.guid, guilds.guid))
+    .innerJoin(songs, eq(requests.suid, songs.suid))
+    .innerJoin(users, eq(requests.uuid, users.uuid))
+    .where(eq(guilds.guildId, guildId))
+    .orderBy(desc(requests.date))
+    .limit(limit);
+
+  return data;
 }

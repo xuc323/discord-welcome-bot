@@ -4,13 +4,15 @@
   "description": "",
   "scripts": {
     "build": "turbo build",
+    "build:bot": "turbo build --filter=discord-bot, --filter=@repo/database --filter=@repo/music-player",
     "dev": "turbo dev",
+    "dev:bot": "turbo dev --filter=discord-bot --filter=@repo/database",
     "lint": "turbo lint",
     "clean": "turbo clean"
   },
   "devDependencies": {
     "@repo/typescript-config": "*",
-    "turbo": "^1.12.4"
+    "turbo": "^1.12.5"
   },
   "workspaces": [
     "apps/*",

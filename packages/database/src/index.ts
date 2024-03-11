@@ -16,6 +16,10 @@ export class Database {
       connectionString: url,
     });
 
+    pool.on("error", (err) => {
+      console.log(err);
+    });
+
     this.postgres = drizzle(pool);
     this.permission = perm;
   }
