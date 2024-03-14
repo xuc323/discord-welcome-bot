@@ -1,17 +1,10 @@
 import { Pool } from "pg";
 import { NodePgDatabase, drizzle } from "drizzle-orm/node-postgres";
 
-export enum PermissionEnum {
-  NULL,
-  READ,
-  READANDWRITE,
-}
-
 export class Database {
   public postgres: NodePgDatabase;
-  public readonly permission;
 
-  constructor(url: string, perm: PermissionEnum = PermissionEnum.NULL) {
+  constructor(url: string) {
     const pool = new Pool({
       connectionString: url,
     });
@@ -21,7 +14,6 @@ export class Database {
     });
 
     this.postgres = drizzle(pool);
-    this.permission = perm;
   }
 }
 

@@ -1,5 +1,5 @@
 import { desc, eq } from "drizzle-orm";
-import { Database, DatabaseError, DatabaseErrorEnum, PermissionEnum } from "..";
+import { Database } from "..";
 import { guilds, requests, songs, users } from "../config";
 
 type Guild = { guildId: bigint; guildName: string };
@@ -13,15 +13,6 @@ export async function selectAllSongsOrderByRequestTime(
   limit: number = 25,
   offset: number = 0
 ) {
-  if (db.permission === PermissionEnum.NULL) {
-    throw new DatabaseError(
-      `You need ${
-        PermissionEnum[PermissionEnum.READ]
-      } permission to execute this function.`,
-      DatabaseErrorEnum.PERMISSION
-    );
-  }
-
   const data = await db.postgres
     .select({
       name: songs.name,
