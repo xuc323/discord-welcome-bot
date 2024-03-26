@@ -114,7 +114,7 @@ for (const file of musicEventFiles) {
  * START CREATING POSTGRES DATABASE CLIENT
  */
 // create an instance of database and attach to bot client
-client.postgres = new Database(process.env.DATABASE_URL!);
+client.postgres = new Database(process.env.POSTGRES_URL!);
 /**
  * END CREATING POSTGRES DATABASE CLIENT
  */

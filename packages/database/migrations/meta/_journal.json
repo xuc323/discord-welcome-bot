@@ -1,0 +1,20 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1710084537091,
+      "tag": "0000_motionless_rockslide",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1710084580132,
+      "tag": "0001_big_shiver_man",
+      "breakpoints": true
+    }
+  ]
+}
