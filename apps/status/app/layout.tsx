@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import "./globals.css";
-import { FirebaseProvider } from "@/components/firebase";
 
 export const metadata: Metadata = {
   title: "Discord Welcome Bot",
@@ -14,9 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <FirebaseProvider>
-        <body>{children}</body>
-      </FirebaseProvider>
+      <body>{children}</body>
     </html>
   );
 }
