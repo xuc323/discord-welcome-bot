@@ -7,7 +7,7 @@
     "start": "node ./build/main.js",
     "dev": "nodemon main.ts",
     "test": "ts-node main.ts",
-    "build": "tsc",
+    "build": "node esbuild.config.js",
     "deploy": "ts-node deploy.ts",
     "clean": "rm -rf ./build"
   },
@@ -25,8 +25,9 @@
   "devDependencies": {
     "@repo/typescript-config": "*",
     "@types/node": "^20.11.30",
+    "esbuild": "^0.20.2",
     "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.3"
   }
 }

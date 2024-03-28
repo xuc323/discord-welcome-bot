@@ -6,8 +6,7 @@ import {
   ActivityType,
 } from "discord.js";
 // import file system module
-import fs from "node:fs";
-import path from "node:path";
+import { readdirSync } from "node:fs";
 // import music player module
 import { Player } from "@jadestudios/discord-music-player";
 // dotenv file
@@ -36,39 +35,30 @@ const client: MyClient = new Client({
 // register commands
 client.commands = new Collection();
 client.slashCommands = new Collection();
-const commandFolderPath = path.join(__dirname, "commands");
-const commandFolders = fs.readdirSync(commandFolderPath);
-// loop through all folders in commands
-for (const folder of commandFolders) {
-  const commandSubFolderPath = path.join(commandFolderPath, folder);
-  const commandFiles = fs
-    .readdirSync(commandSubFolderPath)
-    .filter((file) => file.endsWith(".js") || file.endsWith(".ts"));
-  // loop through all .ts files
-  for (const file of commandFiles) {
-    const commandFilePath = path.join(commandSubFolderPath, file);
-
-    import(commandFilePath).then(
-      ({ basic, slash }: { basic: Command; slash: SlashCommand }) => {
-        client.commands?.set(basic.name, basic);
-        if (slash) {
-          client.slashCommands?.set(slash.data.name, slash);
-        }
+const commandFiles = readdirSync(`./commands`, {
+  recursive: true,
+  encoding: "utf-8",
+}).filter((file) => file.endsWith(".ts") || file.endsWith(".js"));
+// dynamically import the commands
+for (const file of commandFiles) {
+  import(`./commands/${file}`).then(
+    ({ basic, slash }: { basic: Command; slash: SlashCommand }) => {
+      client.commands?.set(basic.name, basic);
+      if (slash) {
+        client.slashCommands?.set(slash.data.name, slash);
       }
-    );
-  }
+    }
+  );
 }
 
 // register events
-const eventFolderPath = path.join(__dirname, "events");
-const eventFiles = fs
-  .readdirSync(eventFolderPath)
-  .filter((file) => file.endsWith(".js") || file.endsWith(".ts"));
+const eventFiles = readdirSync(`./events`, {
+  recursive: true,
+  encoding: "utf-8",
+}).filter((file) => file.endsWith(".ts") || file.endsWith(".js"));
 for (const file of eventFiles) {
-  const eventFilePath = path.join(eventFolderPath, file);
-
   // dynamically import the events
-  import(eventFilePath).then(({ event }: { event: Event }) => {
+  import(`./events/${file}`).then(({ event }: { event: Event }) => {
     if (event.once) {
       client.once(event.name, (...args) => event.execute(client, ...args));
     } else {
@@ -93,16 +83,14 @@ client.player = new Player(client, {
   timeout: 10 * 60 * 1000,
 });
 
-// register events
-const musicEventFolderPath = path.join(__dirname, "music_events");
-const musicEventFiles = fs
-  .readdirSync(musicEventFolderPath)
-  .filter((file) => file.endsWith(".js") || file.endsWith(".ts"));
+// register music events
+const musicEventFiles = readdirSync(`./music_events`, {
+  recursive: true,
+  encoding: "utf-8",
+}).filter((file) => file.endsWith(".ts") || file.endsWith(".js"));
 for (const file of musicEventFiles) {
-  const musicEventFilePath = path.join(musicEventFolderPath, file);
-
   // dynamically import the music events
-  import(musicEventFilePath).then(({ event }: { event: PlayerEvent }) => {
+  import(`./music_events/${file}`).then(({ event }: { event: PlayerEvent }) => {
     client.player?.on(event.name, (...args) => event.execute(client, ...args));
   });
 }

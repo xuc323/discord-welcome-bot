@@ -4,7 +4,7 @@ import { Client } from "pg";
 import "dotenv/config";
 
 const main = async () => {
-  const sql = new Client(process.env.DATABASE_URL);
+  const sql = new Client(process.env.POSTGRES_URL);
 
   await sql.connect();
 
