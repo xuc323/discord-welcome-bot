@@ -4,12 +4,12 @@
   "description": "Simple discord bot that also plays music.",
   "main": "main.ts",
   "scripts": {
-    "start": "node ./build/main.js",
+    "start": "node ./dist/main.js",
     "dev": "nodemon main.ts",
     "test": "ts-node main.ts",
     "build": "node esbuild.config.js",
     "deploy": "ts-node deploy.ts",
-    "clean": "rm -rf ./build"
+    "clean": "rm -rf ./dist"
   },
   "engines": {
     "node": ">=16.9.0"
@@ -28,6 +28,6 @@
     "esbuild": "^0.20.2",
     "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.4"
   }
 }

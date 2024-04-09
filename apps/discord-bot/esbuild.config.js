@@ -4,8 +4,6 @@ build({
   entryPoints: ["./main.ts"],
   bundle: true,
   platform: "node",
-  outdir: "./build",
+  outdir: "dist",
   packages: "external",
-  minify: true,
-  sourcemap: true,
 });
