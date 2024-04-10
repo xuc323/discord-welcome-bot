@@ -1,9 +1,9 @@
-import { Events, Interaction } from "discord.js";
-import { Event, MyClient } from "../type";
+import { Events } from "discord.js";
+import { Event } from "../type";
 
-export const event: Event = {
+export const event: Event<Events.InteractionCreate> = {
   name: Events.InteractionCreate,
-  execute(client: MyClient, interaction: Interaction) {
+  execute(client, interaction) {
     if (!interaction.isChatInputCommand()) {
       return;
     }

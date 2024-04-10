@@ -1,10 +1,10 @@
-import { Events, Message, TextChannel } from "discord.js";
-import { Command, Event, MyClient } from "../type";
+import { Events, TextChannel } from "discord.js";
+import { Command, Event } from "../type";
 const prefix = process.env.PREFIX ?? "!";
 
-export const event: Event = {
+export const event: Event<Events.MessageCreate> = {
   name: Events.MessageCreate,
-  execute(client: MyClient, message: Message) {
+  execute(client, message) {
     // bot will not respond to message without prefix "!" or message from itself
     if (!message.content.startsWith(prefix) || message.author.bot) {
       return;

@@ -1,9 +1,9 @@
 import { Events } from "discord.js";
-import { Event, MyClient } from "../type";
+import { Event } from "../type";
 
-export const event: Event = {
+export const event: Event<Events.Error> = {
   name: Events.Error,
-  execute(client: MyClient, error: Error) {
+  execute(client, error) {
     console.log(`BOT ERROR: ${error}`);
   },
 };
