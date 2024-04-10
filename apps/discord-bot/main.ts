@@ -21,8 +21,10 @@ import { Database } from "@repo/database";
 // create an instance of a discord client
 const client: MyClient = new Client({
   intents: [
+    GatewayIntentBits.DirectMessages,
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMessageReactions,
     GatewayIntentBits.GuildVoiceStates,
     GatewayIntentBits.MessageContent,
   ],
@@ -58,7 +60,7 @@ const eventFiles = readdirSync(`./events`, {
 }).filter((file) => file.endsWith(".ts") || file.endsWith(".js"));
 for (const file of eventFiles) {
   // dynamically import the events
-  import(`./events/${file}`).then(({ event }: { event: Event }) => {
+  import(`./events/${file}`).then(({ event }: { event: Event<any> }) => {
     if (event.once) {
       client.once(event.name, (...args) => event.execute(client, ...args));
     } else {
@@ -66,7 +68,6 @@ for (const file of eventFiles) {
     }
   });
 }
-
 /**
  * END CREATING BOT CLIENT
  */

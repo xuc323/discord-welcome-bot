@@ -2,6 +2,7 @@ import { Player, PlayerEvents } from "@jadestudios/discord-music-player";
 import { Database } from "@repo/database";
 import {
   Client,
+  ClientEvents,
   Collection,
   CommandInteraction,
   Message,
@@ -29,10 +30,10 @@ export interface SlashCommand {
   execute: (interaction: CommandInteraction) => any;
 }
 
-export interface Event {
-  name: string;
+export interface Event<E extends keyof ClientEvents> {
+  name: E;
   once?: boolean;
-  execute: (client: MyClient, ...args: any[]) => any;
+  execute: (client: MyClient, ...args: ClientEvents[E]) => any;
 }
 
 export interface PlayerEvent {

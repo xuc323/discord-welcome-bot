@@ -6,4 +6,4 @@ build({
   platform: "node",
   outdir: "dist",
   packages: "external",
-});
+}).then(() => console.log("⚡ Bundle is complete! ⚡"));

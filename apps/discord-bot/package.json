@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./dist/main.js",
     "dev": "nodemon main.ts",
-    "test": "ts-node main.ts",
+    "test": "jest",
     "build": "node esbuild.config.js",
     "deploy": "ts-node deploy.ts",
     "clean": "rm -rf ./dist"
@@ -24,9 +24,12 @@
   },
   "devDependencies": {
     "@repo/typescript-config": "*",
+    "@types/jest": "^29.5.12",
     "@types/node": "^20.12.3",
     "esbuild": "^0.20.2",
+    "jest": "^29.7.0",
     "nodemon": "^3.1.0",
+    "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.4"
   }
