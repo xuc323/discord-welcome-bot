@@ -16,7 +16,6 @@
     "play-dl": "^1.9.7"
   },
   "devDependencies": {
-    "@repo/typescript-config": "*",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5"
   }
