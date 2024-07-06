@@ -13,7 +13,7 @@ export default function Home() {
       <div>
         <h2 className="text-center text-lg">Songs Recently Played</h2>
       </div>
-      <table className="mx-auto my-2 border-collapse border table-auto shadow-lg">
+      <table className="mx-auto my-2 table-auto border-collapse border shadow-lg">
         <thead>
           <tr>
             <th className="border p-3">Song Name</th>

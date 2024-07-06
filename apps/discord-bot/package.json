@@ -5,7 +5,7 @@
   "main": "main.ts",
   "scripts": {
     "start": "node ./dist/main.js",
-    "dev": "nodemon main.ts",
+    "dev": "tsx main.ts",
     "test": "jest",
     "build": "node esbuild.config.js",
     "deploy": "ts-node deploy.ts",
@@ -16,20 +16,21 @@
   },
   "dependencies": {
     "@discordjs/opus": "^0.9.0",
-    "@discordjs/voice": "^0.16.1",
+    "@discordjs/voice": "^0.17.0",
     "@jadestudios/discord-music-player": "^9.1.1-az28",
     "@repo/database": "*",
-    "discord.js": "^14.14.1",
-    "dotenv": "^16.4.5"
+    "discord.js": "^14.15.3",
+    "dotenv": "^16.4.5",
+    "play-dl": "^1.9.7"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
-    "@types/node": "^20.12.7",
-    "esbuild": "^0.20.2",
+    "@types/node": "^20.14.10",
+    "esbuild": "^0.21.5",
     "jest": "^29.7.0",
-    "nodemon": "^3.1.0",
-    "ts-jest": "^29.1.2",
+    "ts-jest": "^29.1.5",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.5"
+    "tsx": "^4.15.6",
+    "typescript": "^5.5.3"
   }
 }
