@@ -21,7 +21,7 @@
     "@repo/database": "*",
     "discord.js": "^14.15.3",
     "dotenv": "^16.4.5",
-    "play-dl": "^1.9.7"
+    "play-dl": "github:Yoduh/play-dl-test"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
