@@ -1,5 +1,5 @@
 import { search as yt_search } from "play-dl";
-import { Song } from "./Song";
+import { Song } from "..";
 
 export async function search(query: string) {
   const yt_info = await yt_search(query, { limit: 1 });
