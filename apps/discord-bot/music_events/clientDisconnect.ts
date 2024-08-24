@@ -1,10 +1,10 @@
-import { Queue } from "@jadestudios/discord-music-player";
-import { PlayerEvent, MyClient, QueueData } from "../type";
+import { PlayerEventNames, Queue } from "@repo/music-player";
+import { MyClient, PlayerEvent } from "../type";
 
-export const event: PlayerEvent = {
-  name: "clientDisconnect",
-  execute(client: MyClient, queue: Queue<QueueData>) {
-    queue.data?.msgChannel.send(
+export const event: PlayerEvent<PlayerEventNames.clientDisconnect> = {
+  name: PlayerEventNames.clientDisconnect,
+  execute(client: MyClient, queue: Queue) {
+    queue.messageChannel.send(
       "I was kicked from the Voice Channel, queue ended."
     );
   },

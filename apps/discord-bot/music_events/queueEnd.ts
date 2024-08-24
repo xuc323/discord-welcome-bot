@@ -1,9 +1,9 @@
-import { Queue } from "@jadestudios/discord-music-player";
-import { MyClient, PlayerEvent, QueueData } from "../type";
+import { PlayerEventNames, Queue } from "@repo/music-player";
+import { MyClient, PlayerEvent } from "../type";
 
-export const event: PlayerEvent = {
-  name: "queueEnd",
-  execute(client: MyClient, queue: Queue<QueueData>) {
-    queue.data?.msgChannel.send("The queue has ended.");
+export const event: PlayerEvent<PlayerEventNames.queueEnd> = {
+  name: PlayerEventNames.queueEnd,
+  execute(client: MyClient, queue: Queue) {
+    queue.messageChannel.send("The queue has ended.");
   },
 };

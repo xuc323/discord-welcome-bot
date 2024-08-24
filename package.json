@@ -2,16 +2,16 @@
   "name": "discord-welcome-bot",
   "private": true,
   "scripts": {
-    "build": "turbo build",
-    "build:bot": "turbo build --filter=discord-bot --filter=@repo/database --filter=@repo/music-player",
-    "dev": "turbo dev",
-    "dev:bot": "turbo dev --filter=discord-bot --filter=@repo/database --filter=@repo/music-player",
-    "lint": "turbo lint",
-    "test": "turbo test",
-    "clean": "turbo clean"
+    "build": "turbo run build",
+    "build:bot": "turbo run build --filter=discord-bot --filter=@repo/database --filter=@repo/music-player",
+    "dev": "turbo run dev",
+    "dev:bot": "turbo run dev --filter=discord-bot --filter=@repo/database --filter=@repo/music-player",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean"
   },
   "devDependencies": {
-    "turbo": "^2.0.9"
+    "turbo": "^2.0.14"
   },
   "engines": {
     "node": ">=18"

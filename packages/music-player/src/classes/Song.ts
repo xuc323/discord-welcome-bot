@@ -1,5 +1,15 @@
 import { User } from "discord.js";
 
+export interface SongProps {
+  id: string;
+  name: string;
+  author: string;
+  url: string;
+  thumbnail: string;
+  duration: number;
+  requestedBy?: User;
+  seekTime?: number;
+}
 export class Song {
   private _id: string;
   private _name: string;
@@ -10,13 +20,14 @@ export class Song {
   private _requestedBy?: User;
   private _seekTime?: number;
 
-  constructor({}) {
-    this._id = "";
-    this._name = "";
-    this._author = "";
-    this._url = "";
-    this._thumbnail = "";
-    this._duration = 1000;
+  constructor(props: SongProps) {
+    this._id = props.id;
+    this._name = props.name;
+    this._author = props.author;
+    this._url = props.url;
+    this._thumbnail = props.thumbnail;
+    this._duration = props.duration;
+    this._requestedBy = props.requestedBy;
   }
 
   public get id() {

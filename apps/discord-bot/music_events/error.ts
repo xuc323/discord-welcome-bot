@@ -1,10 +1,10 @@
-import { Queue } from "@jadestudios/discord-music-player";
-import { MyClient, PlayerEvent, QueueData } from "../type";
+import { PlayerEventNames, Queue } from "@repo/music-player";
+import { MyClient, PlayerEvent } from "../type";
 
-export const event: PlayerEvent = {
-  name: "error",
-  execute(client: MyClient, error: string, queue: Queue<QueueData>) {
-    queue.data?.msgChannel.send(`ERROR: an unknown error occured..`);
+export const event: PlayerEvent<PlayerEventNames.error> = {
+  name: PlayerEventNames.error,
+  execute(client: MyClient, error: string, queue: Queue) {
+    queue.messageChannel.send(`ERROR: an unknown error occured..`);
     console.log(
       `[${queue.guild.name} | ${queue.guild.id}]: MUSIC EVENT ERROR: ${error}`
     );

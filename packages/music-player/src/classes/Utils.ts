@@ -18,16 +18,20 @@ export async function search(query: string) {
   return song;
 }
 
-async function verifyUrl(url: string) {}
-
-// Fisher–Yates Shuffle
-export function shuffle(array: Song[]) {
-  const clone = array.slice();
-
-  for (let i = clone.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [clone[i], clone[j]] = [clone.at(j)!, clone.at(i)!];
+export async function verifyUrl(url: string) {
+  if (RegexList.YouTubeVideo.test(url)) {
+    return true;
   }
+  return false;
+}
 
-  return clone;
+export class RegexList {
+  public static readonly YouTubeVideo =
+    /^((?:https?:)\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))((?!channel)(?!user)\/(?:[\w\-]+\?v=|embed\/|v\/)?)((?!channel)(?!user)[\w\-]+)/;
+  public static readonly YouTubeVideoTime = /(([?]|[&])t=(\d+))/;
+  public static readonly YouTubeVideoID =
+    /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+  public static readonly YouTubePlaylist =
+    /^((?:https?:)\/\/)?((?:www|m)\.)?((?:youtube\.com)).*(youtu.be\/|list=)([^#&?]*).*/;
+  public static readonly YouTubePlaylistID = /[&?]list=([^&]+)/;
 }

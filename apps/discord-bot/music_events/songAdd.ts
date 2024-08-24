@@ -1,10 +1,10 @@
-import { Queue, Song } from "@jadestudios/discord-music-player";
-import { MyClient, PlayerEvent, QueueData } from "../type";
+import { PlayerEventNames, Queue, Song } from "@repo/music-player";
+import { MyClient, PlayerEvent } from "../type";
 
-export const event: PlayerEvent = {
-  name: "songAdd",
-  execute(client: MyClient, queue: Queue<QueueData>, song: Song) {
-    queue.data?.msgChannel.send(
+export const event: PlayerEvent<PlayerEventNames.songAdd> = {
+  name: PlayerEventNames.songAdd,
+  execute(client: MyClient, queue: Queue, song: Song) {
+    queue.messageChannel.send(
       `**${song.name}** has been added to the queue.\n${song.url}`
     );
     console.log(
