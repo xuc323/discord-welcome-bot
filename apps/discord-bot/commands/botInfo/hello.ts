@@ -6,6 +6,7 @@ export const basic: Command = {
   description: "Hello!",
   args: false,
   aliases: ["hi"],
+  isLive: true,
   execute(message: Message, args: string[], client: MyClient) {
     message.channel.send(`Hi, ${message.author.username}!`);
   },

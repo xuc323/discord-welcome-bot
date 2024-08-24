@@ -5,6 +5,7 @@ export const basic: Command = {
   name: "ping",
   description: "Return bot's latency in ms.",
   args: false,
+  isLive: true,
   execute(message: Message, args: string[], client: MyClient) {
     // create ping
     const ping = client.ws.ping;

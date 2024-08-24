@@ -10,6 +10,7 @@ export const basic: Command = {
   name: "server",
   description: "Display server info.",
   args: false,
+  isLive: true,
   execute(message: Message, args: string[], client: MyClient) {
     const { name, memberCount, createdAt } = message.guild!;
     const emb = new EmbedBuilder()

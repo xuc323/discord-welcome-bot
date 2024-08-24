@@ -6,6 +6,7 @@ export const basic: Command = {
   description: "Perform math calculation. (+-*/%^)",
   args: true,
   usage: "[num1] [operator] [num2]",
+  isLive: true,
   execute(message: Message, args: string[], client: MyClient) {
     if (args.length != 3) {
       return message.channel.send(

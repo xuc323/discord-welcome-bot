@@ -1,5 +1,5 @@
-import { Player, PlayerEvents } from "@jadestudios/discord-music-player";
 import { Database } from "@repo/database";
+import { Player, PlayerEvents } from "@repo/music-player";
 import {
   Client,
   ClientEvents,
@@ -22,6 +22,7 @@ export interface Command {
   readonly args?: boolean;
   readonly aliases?: string[];
   readonly usage?: string;
+  readonly isLive: boolean;
   execute: (message: Message, args: string[], client: MyClient) => any;
 }
 
@@ -36,11 +37,7 @@ export interface Event<E extends keyof ClientEvents> {
   execute: (client: MyClient, ...args: ClientEvents[E]) => any;
 }
 
-export interface PlayerEvent {
-  name: keyof PlayerEvents;
-  execute: (client: MyClient, ...args: any[]) => any;
+export interface PlayerEvent<E extends keyof PlayerEvents> {
+  name: E;
+  execute: (client: MyClient, ...args: PlayerEvents[E]) => any;
 }
-
-export type QueueData = {
-  msgChannel: Message["channel"];
-};

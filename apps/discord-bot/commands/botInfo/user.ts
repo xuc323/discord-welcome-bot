@@ -5,6 +5,7 @@ export const basic: Command = {
   name: "user",
   description: "Display user info.",
   args: false,
+  isLive: true,
   execute(message: Message, args: string[], client: MyClient) {
     const { createdAt, id, username, tag } = message.author;
     const emb = new EmbedBuilder()

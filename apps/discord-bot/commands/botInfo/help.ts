@@ -1,5 +1,6 @@
 import { Message } from "discord.js";
 import { Command, MyClient } from "../../type";
+
 const prefix = process.env.PREFIX ?? "!";
 
 export const basic: Command = {
@@ -7,6 +8,7 @@ export const basic: Command = {
   description: "List all commands or info about a specific command.",
   usage: "[command name]",
   aliases: ["h"],
+  isLive: true,
   execute(message: Message, args: string[], client: MyClient) {
     // contains all the commands and descriptions
     const data: string[] = [];

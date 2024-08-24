@@ -6,6 +6,7 @@ export const basic: Command = {
   description: "Display bot's uptime.",
   args: false,
   aliases: ["up"],
+  isLive: true,
   execute(message: Message, args: string[], client: MyClient) {
     // calculate how long the bot has been up
     let str: string[] = [];
