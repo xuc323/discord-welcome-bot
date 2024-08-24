@@ -1,10 +1,8 @@
 {
-  "id": "aaca5f53-879f-40d9-9ef0-b9ac03182a4f",
-  "prevId": "f880f36e-dc1a-40a0-84da-6b067f3d5069",
-  "version": "5",
-  "dialect": "pg",
+  "version": "7",
+  "dialect": "postgresql",
   "tables": {
-    "guilds": {
+    "public.guilds": {
       "name": "guilds",
       "schema": "",
       "columns": {
@@ -34,14 +32,14 @@
       "uniqueConstraints": {
         "guilds_guild_id_unique": {
           "name": "guilds_guild_id_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "guild_id"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     },
-    "requests": {
+    "public.requests": {
       "name": "requests",
       "schema": "",
       "columns": {
@@ -76,47 +74,47 @@
         "requests_guid_guilds_guid_fk": {
           "name": "requests_guid_guilds_guid_fk",
           "tableFrom": "requests",
-          "tableTo": "guilds",
           "columnsFrom": [
             "guid"
           ],
+          "tableTo": "guilds",
           "columnsTo": [
             "guid"
           ],
-          "onDelete": "restrict",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "restrict"
         },
         "requests_suid_songs_suid_fk": {
           "name": "requests_suid_songs_suid_fk",
           "tableFrom": "requests",
-          "tableTo": "songs",
           "columnsFrom": [
             "suid"
           ],
+          "tableTo": "songs",
           "columnsTo": [
             "suid"
           ],
-          "onDelete": "restrict",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "restrict"
         },
         "requests_uuid_users_uuid_fk": {
           "name": "requests_uuid_users_uuid_fk",
           "tableFrom": "requests",
-          "tableTo": "users",
           "columnsFrom": [
             "uuid"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "uuid"
           ],
-          "onDelete": "restrict",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "restrict"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "songs": {
+    "public.songs": {
       "name": "songs",
       "schema": "",
       "columns": {
@@ -152,14 +150,14 @@
       "uniqueConstraints": {
         "songs_url_unique": {
           "name": "songs_url_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "url"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     },
-    "users": {
+    "public.users": {
       "name": "users",
       "schema": "",
       "columns": {
@@ -195,10 +193,10 @@
       "uniqueConstraints": {
         "users_user_id_unique": {
           "name": "users_user_id_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "user_id"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     }
@@ -206,8 +204,11 @@
   "enums": {},
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "aaca5f53-879f-40d9-9ef0-b9ac03182a4f",
+  "prevId": "f880f36e-dc1a-40a0-84da-6b067f3d5069",
+  "sequences": {}
 }
