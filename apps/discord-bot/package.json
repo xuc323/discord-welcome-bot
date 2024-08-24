@@ -18,6 +18,7 @@
     "@discordjs/opus": "^0.9.0",
     "@discordjs/voice": "^0.17.0",
     "@repo/database": "*",
+    "@repo/music-player": "*",
     "discord.js": "^14.15.3",
     "dotenv": "^16.4.5"
   },
