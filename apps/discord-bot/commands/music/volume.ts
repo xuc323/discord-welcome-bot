@@ -1,4 +1,3 @@
-import { DMPError } from "@jadestudios/discord-music-player";
 import { Message } from "discord.js";
 import { Command, MyClient } from "../../type";
 
@@ -8,6 +7,7 @@ export const basic: Command = {
   aliases: ["v"],
   args: false,
   usage: "[volume number]",
+  isLive: false,
   execute(message: Message, args: string[], client: MyClient) {
     // check if the queue exists
     const queue = client.player!.getQueue(message.guild!.id);
@@ -22,7 +22,6 @@ export const basic: Command = {
 
       // the user is in the same voice channel as the bot
       const vol = args[0] && Number(args[0]);
-
       if (vol) {
         if (vol > 200 || vol < 0) {
           return message.channel.send("WARNING: Volume range 0-200.");
@@ -36,8 +35,8 @@ export const basic: Command = {
               "ERROR: Failed to set volume. Try again later."
             );
           }
-        } catch (err) {
-          const error = err as DMPError;
+        } catch (err: any) {
+          const error: Error = err;
           message.channel.send(error.message);
         }
       } else {

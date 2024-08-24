@@ -1,5 +1,4 @@
-import { DMPError } from "@jadestudios/discord-music-player";
-import { Message, TextChannel } from "discord.js";
+import { Message } from "discord.js";
 import { Command, MyClient } from "../../type";
 
 export const basic: Command = {
@@ -7,6 +6,7 @@ export const basic: Command = {
   description: "Skip to the next song.",
   aliases: ["n", "skip"],
   args: false,
+  isLive: false,
   execute(message: Message, args: string[], client: MyClient) {
     // check if the queue exists
     const queue = client.player!.getQueue(message.guild!.id);
@@ -29,8 +29,8 @@ export const basic: Command = {
             "ERROR: Failed to skip a song. Try again later."
           );
         }
-      } catch (err) {
-        const error = err as DMPError;
+      } catch (err: any) {
+        const error: Error = err;
         message.channel.send(error.message);
       }
     } else {

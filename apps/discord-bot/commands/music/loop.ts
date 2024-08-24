@@ -1,5 +1,5 @@
+import { RepeatMode } from "@repo/music-player";
 import { Message } from "discord.js";
-import { DMPError, RepeatMode } from "@jadestudios/discord-music-player";
 import { Command, MyClient } from "../../type";
 
 export const basic: Command = {
@@ -7,6 +7,7 @@ export const basic: Command = {
   description: "Loop the queue.",
   aliases: ["l"],
   args: false,
+  isLive: false,
   execute(message: Message, args: string[], client: MyClient) {
     // check if the queue exists
     const queue = client.player!.getQueue(message.guild!.id);
@@ -29,8 +30,8 @@ export const basic: Command = {
             "ERROR: Failed to set to loop mode. Try again later."
           );
         }
-      } catch (err) {
-        const error = err as DMPError;
+      } catch (err: any) {
+        const error: Error = err;
         message.channel.send(error.message);
       }
     } else {

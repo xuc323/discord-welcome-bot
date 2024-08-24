@@ -1,4 +1,4 @@
-import { GuildChannelResolvable, Message } from "discord.js";
+import { GuildChannelResolvable, Message, TextChannel } from "discord.js";
 import { Command, MyClient } from "../../type";
 
 export const basic: Command = {
@@ -7,13 +7,13 @@ export const basic: Command = {
   aliases: ["pl"],
   args: true,
   usage: "[playlist url]",
+  isLive: false,
   async execute(message: Message, args: string[], client: MyClient) {
     // create queue if not exists, otherwise get the queue
-    const queue = client.player!.createQueue(message.guild!.id, {
-      data: {
-        msgChannel: message.channel,
-      },
-    });
+    const queue = client.player!.createQueue(
+      message.guild!.id,
+      message.channel as TextChannel
+    );
 
     await queue.join(message.member?.voice.channel as GuildChannelResolvable);
     if (queue.connection?.channel != message.member?.voice.channel) {
@@ -24,11 +24,9 @@ export const basic: Command = {
     }
     // the user is in the same voice channel as the bot
     // add playlist to the queue
-    await queue
-      .playlist(args.join(" "), { requestedBy: message.author, shuffle: false })
-      .catch((err) => {
-        console.log(`MUSIC PLAY ERROR: ${err}`);
-        message.channel.send(err);
-      });
+    await queue.play(args.join(" ")).catch((err: any) => {
+      console.log(`MUSIC PLAY ERROR: ${err}`);
+      message.channel.send(err);
+    });
   },
 };

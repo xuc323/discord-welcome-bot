@@ -1,4 +1,3 @@
-import { DMPError } from "@jadestudios/discord-music-player";
 import { Message } from "discord.js";
 import { Command, MyClient } from "../../type";
 
@@ -7,6 +6,7 @@ export const basic: Command = {
   description: "Stop the music and leave the voice channel.",
   aliases: ["s"],
   args: false,
+  isLive: false,
   execute(message: Message, args: string[], client: MyClient) {
     // check if the queue exists
     const queue = client.player!.getQueue(message.guild!.id);
@@ -23,8 +23,8 @@ export const basic: Command = {
       try {
         queue.stop();
         message.channel.send("MUSIC STATUS: Music stopped, queue is cleared!");
-      } catch (err) {
-        const error = err as DMPError;
+      } catch (err: any) {
+        const error: Error = err;
         message.channel.send(error.message);
       }
     } else {

@@ -1,11 +1,12 @@
 import { Message } from "discord.js";
-import { DMPError, RepeatMode } from "@jadestudios/discord-music-player";
 import { Command, MyClient } from "../../type";
+import { RepeatMode } from "@repo/music-player";
 
 export const basic: Command = {
   name: "reset",
   description: "Reset to not looping.",
   args: false,
+  isLive: false,
   execute(message: Message, args: string[], client: MyClient) {
     // check if the queue exists
     const queue = client.player!.getQueue(message.guild!.id);
@@ -26,8 +27,8 @@ export const basic: Command = {
         } else {
           message.channel.send("ERROR: Failed to set. Try again later.");
         }
-      } catch (err) {
-        const error = err as DMPError;
+      } catch (err: any) {
+        const error: Error = err;
         message.channel.send(error.message);
       }
     } else {

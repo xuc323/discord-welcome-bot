@@ -1,12 +1,13 @@
+import { selectRecentSongsInGuildOrderByRequestTime } from "@repo/database";
 import { EmbedBuilder, Message } from "discord.js";
 import { Command, MyClient } from "../../type";
-import { selectRecentSongsInGuildOrderByRequestTime } from "@repo/database";
 
 export const basic: Command = {
   name: "recent",
   description: "Print the songs played previously. (Up to 25, default is 5)",
   args: false,
   usage: "[number of songs]",
+  isLive: true,
   execute(message: Message, args: string[], client: MyClient) {
     // create an embed message
     const emb = new EmbedBuilder()

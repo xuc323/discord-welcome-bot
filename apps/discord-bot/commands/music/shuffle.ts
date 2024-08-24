@@ -1,4 +1,3 @@
-import { DMPError } from "@jadestudios/discord-music-player";
 import { Message } from "discord.js";
 import { Command, MyClient } from "../../type";
 
@@ -7,6 +6,7 @@ export const basic: Command = {
   description: "Shuffle the queue.",
   aliases: ["shuf"],
   args: false,
+  isLive: true,
   execute(message: Message, args: string[], client: MyClient) {
     // check if the queue exists
     const queue = client.player!.getQueue(message.guild!.id);
@@ -19,20 +19,8 @@ export const basic: Command = {
         );
       }
 
-      // the user is in the same voice channel as the bot
-      try {
-        const songs = queue.shuffle();
-        if (songs) {
-          message.channel.send("MUSIC STATUS: Queue is now shuffled!");
-        } else {
-          message.channel.send(
-            "ERROR: Failed to shuffle the queue. Try again later."
-          );
-        }
-      } catch (err) {
-        const error = err as DMPError;
-        message.channel.send(error.message);
-      }
+      queue.shuffle();
+      message.channel.send("MUSIC STATUS: Queue is now shuffled!");
     } else {
       // the queue doesn't exist
       message.channel.send(

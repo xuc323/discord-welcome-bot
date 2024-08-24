@@ -7,6 +7,7 @@ export const basic: Command = {
   aliases: ["q"],
   args: false,
   usage: "[number of songs]",
+  isLive: true,
   execute(message: Message, args: string[], client: MyClient) {
     // check if the queue exists
     const queue = client.player!.getQueue(message.guild!.id);
