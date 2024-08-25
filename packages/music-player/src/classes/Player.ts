@@ -38,22 +38,25 @@ export enum PlayerErrors {
  * different guilds. Handles music related evenets
  */
 export class Player extends EventEmitter {
-  private client: Client;
+  private _client: Client;
   private queues: Collection<Snowflake, Queue>;
 
   constructor(client: Client) {
     super();
 
-    this.client = client;
+    this._client = client;
     this.queues = new Collection();
 
-    this.client.on("voiceStateUpdate", (oldState, newState) => {
+    this._client.on("voiceStateUpdate", (oldState, newState) => {
       const queue = this.queues.get(oldState.guild.id);
       if (!queue || !queue.connection) {
         return;
       }
 
-      if (!newState.channelId && this.client.user?.id === oldState.member?.id) {
+      if (
+        !newState.channelId &&
+        this._client.user?.id === oldState.member?.id
+      ) {
         // the bot is disconnected
         queue.leave();
         return void this.emit("clientDisconnect", queue);
@@ -78,7 +81,7 @@ export class Player extends EventEmitter {
     if (this.queues.has(guildId)) {
       return this.queues.get(guildId) as Queue;
     } else {
-      const guild = this.client.guilds.resolve(guildId);
+      const guild = this._client.guilds.resolve(guildId);
       if (!guild) {
         throw "Not in Voice Channel";
       }
@@ -100,6 +103,10 @@ export class Player extends EventEmitter {
 
   public deleteQueue(guildId: Snowflake) {
     this.queues.delete(guildId);
+  }
+
+  public get client() {
+    return this._client;
   }
 
   public once<E extends keyof PlayerEvents>(

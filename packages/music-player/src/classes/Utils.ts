@@ -1,10 +1,10 @@
 import { search as yt_search } from "play-dl";
 import { Song } from "..";
+import { User } from "discord.js";
 
-export async function search(query: string) {
+export async function search(query: string, props: { requestedBy?: User }) {
   const yt_info = await yt_search(query, { limit: 1 });
   const first = yt_info.at(0);
-  console.log(first);
 
   const song = new Song({
     id: first?.id!,
@@ -13,6 +13,7 @@ export async function search(query: string) {
     url: first?.url!,
     thumbnail: first?.thumbnails.at(0)?.url!,
     duration: first?.durationInSec!,
+    requestedBy: props.requestedBy,
   });
 
   return song;

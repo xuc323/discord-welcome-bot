@@ -1,13 +1,12 @@
-import { Message } from "discord.js";
-import { Command, MyClient } from "../../type";
+import { Command } from "../../type";
 
 export const basic: Command = {
   name: "next",
   description: "Skip to the next song.",
   aliases: ["n", "skip"],
   args: false,
-  isLive: false,
-  execute(message: Message, args: string[], client: MyClient) {
+  isLive: true,
+  execute(message, args, client) {
     // check if the queue exists
     const queue = client.player!.getQueue(message.guild!.id);
     if (queue) {
@@ -23,7 +22,7 @@ export const basic: Command = {
       try {
         const song = queue.skip();
         if (song) {
-          message.channel.send(`MUSIC STATUS: **${song}** is skipped!`);
+          message.channel.send(`**${song}** is skipped!`);
         } else {
           message.channel.send(
             "ERROR: Failed to skip a song. Try again later."

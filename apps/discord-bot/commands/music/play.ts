@@ -1,5 +1,5 @@
-import { GuildChannelResolvable, Message, TextChannel } from "discord.js";
-import { Command, MyClient } from "../../type";
+import { GuildChannelResolvable, TextChannel } from "discord.js";
+import { Command } from "../../type";
 
 export const basic: Command = {
   name: "play",
@@ -8,7 +8,7 @@ export const basic: Command = {
   args: true,
   usage: "[song name or url]",
   isLive: true,
-  async execute(message: Message, args: string[], client: MyClient) {
+  async execute(message, args, client) {
     // create queue if not exists, otherwise get the queue
     const queue = client.player!.createQueue(
       message.guild!.id,
@@ -32,7 +32,7 @@ export const basic: Command = {
     // the user is in the same voice channel as the bot
     // add music to the queue
     try {
-      await queue.play(args.join(" "));
+      await queue.play(args.join(" "), { requestedBy: message.author });
     } catch (err: any) {
       const error: Error = err;
       console.log(`Music Play Error: ${err}`);

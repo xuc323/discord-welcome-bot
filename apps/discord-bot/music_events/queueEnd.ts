@@ -1,9 +1,9 @@
-import { PlayerEventNames, Queue } from "@repo/music-player";
-import { MyClient, PlayerEvent } from "../type";
+import { PlayerEventNames } from "@repo/music-player";
+import { PlayerEvent } from "../type";
 
 export const event: PlayerEvent<PlayerEventNames.queueEnd> = {
   name: PlayerEventNames.queueEnd,
-  execute(client: MyClient, queue: Queue) {
+  execute(client, queue) {
     queue.messageChannel.send("The queue has ended.");
   },
 };

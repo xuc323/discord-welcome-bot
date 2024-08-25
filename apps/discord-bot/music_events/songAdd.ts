@@ -1,9 +1,9 @@
-import { PlayerEventNames, Queue, Song } from "@repo/music-player";
-import { MyClient, PlayerEvent } from "../type";
+import { PlayerEventNames } from "@repo/music-player";
+import { PlayerEvent } from "../type";
 
 export const event: PlayerEvent<PlayerEventNames.songAdd> = {
   name: PlayerEventNames.songAdd,
-  execute(client: MyClient, queue: Queue, song: Song) {
+  execute(client, queue, song) {
     queue.messageChannel.send(
       `**${song.name}** has been added to the queue.\n${song.url}`
     );

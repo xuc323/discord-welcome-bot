@@ -3,8 +3,10 @@ import {
   ChannelType,
   Guild,
   GuildChannelResolvable,
+  PermissionFlagsBits,
   StageChannel,
   TextChannel,
+  User,
   VoiceChannel,
 } from "discord.js";
 import { stream } from "play-dl";
@@ -64,6 +66,18 @@ export class Queue {
       throw "Not a Voice Channel Right?";
     }
 
+    // check if the client has permission to CONNECT
+    if (
+      !channel
+        .permissionsFor(this._player.client.user!)
+        ?.has(PermissionFlagsBits.Connect)
+    ) {
+      this._player.emit("error", "", this);
+      this._destroyed = true;
+      this._player.deleteQueue(this._guild.id);
+      throw new Error("No permission to join the Voice Channel");
+    }
+
     const conn = joinVoiceChannel({
       guildId: channel.guild.id,
       channelId: channel.id,
@@ -78,6 +92,10 @@ export class Queue {
     });
 
     this._connection.on("end", async (resource) => {
+      if (this._destroyed) {
+        return;
+      }
+
       this._isPlaying = false;
       const oldSong = this._songs.shift();
       if (this._songs.length === 0) {
@@ -95,7 +113,7 @@ export class Queue {
     return this;
   }
 
-  public async play(query: string) {
+  public async play(query: string, props?: { requestedBy: User }) {
     if (!this._connection) {
       this._player.emit("error", "", this);
       throw "No Voice Connection";
@@ -103,7 +121,7 @@ export class Queue {
 
     let song;
     try {
-      song = await search(query);
+      song = await search(query, { requestedBy: props?.requestedBy });
     } catch (err) {
       this._player.emit("error", (err as Error).name, this);
       throw err;
@@ -145,14 +163,15 @@ export class Queue {
   }
 
   public skip() {
-    return new Song({
-      id: "",
-      name: "",
-      author: "",
-      url: "",
-      thumbnail: "",
-      duration: 100,
-    });
+    if (!this._connection) {
+      this._player.emit("error", "", this);
+      throw "No Voice Connection";
+    }
+
+    const song = this._songs.at(0);
+    this._connection.stop();
+
+    return song;
   }
 
   public async seek(seconds: number) {
@@ -196,7 +215,7 @@ export class Queue {
 
   public leave() {
     this._destroyed = true;
-    this._connection!.leave();
+    this._connection?.leave();
     this._player.deleteQueue(this._guild.id);
   }
 
