@@ -98,9 +98,15 @@ export class Queue {
 
       this._isPlaying = false;
       const oldSong = this._songs.shift();
-      if (this._songs.length === 0) {
+      if (
+        this._songs.length === 0 &&
+        this._repeatMode === RepeatMode.DISABLED
+      ) {
         this._player.emit("queueEnd", this);
       } else {
+        if (this._repeatMode === RepeatMode.QUEUE) {
+          this._songs.push(oldSong!);
+        }
         this._player.emit("songChanged", this, oldSong!, this._songs.at(0)!);
         await this._play();
       }
@@ -195,14 +201,11 @@ export class Queue {
   }
 
   public remove(index: number) {
-    return new Song({
-      id: "",
-      name: "",
-      author: "",
-      url: "",
-      thumbnail: "",
-      duration: 100,
-    });
+    if (this._destroyed) {
+      return;
+    }
+
+    return this._songs.splice(index, 1).at(0);
   }
 
   public setPaused(status: boolean) {

@@ -7,7 +7,7 @@ export const basic: Command = {
   description: "Loop the queue.",
   aliases: ["l"],
   args: false,
-  isLive: false,
+  isLive: true,
   execute(message: Message, args: string[], client: MyClient) {
     // check if the queue exists
     const queue = client.player!.getQueue(message.guild!.id);
