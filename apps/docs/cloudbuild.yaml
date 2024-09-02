@@ -4,13 +4,13 @@ steps:
       [
         "build",
         "-t",
-        "${LOCATION}-docker.pkg.dev/${PROJECT_ID}/discord-bot:latest,
+        "${LOCATION}-docker.pkg.dev/${PROJECT_ID}/discord-bot-docs:latest,
         "-f",
-        "./apps/discord-bot/Dockerfile",
+        "./apps/docs/Dockerfile",
         ".",
       ]
 timeout: 300s
 images:
-  - ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/discord-bot:latest
+  - ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/discord-bot-docs:latest
 options:
   logging: CLOUD_LOGGING_ONLY

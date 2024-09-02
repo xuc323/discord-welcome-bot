@@ -6,7 +6,7 @@ RUN apk add --no-cache libc6-compat
 # Set working directory
 WORKDIR /app
 # Replace <your-major-version> with the major version installed in your repository. For example:
-RUN npm install -g turbo
+RUN npm install -g turbo@2
 COPY . .
 
 # Generate a partial monorepo with a pruned lockfile for a target workspace.
