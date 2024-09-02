@@ -4,7 +4,7 @@ import { NodePgDatabase, drizzle } from "drizzle-orm/node-postgres";
 export class Database {
   public postgres: NodePgDatabase;
 
-  constructor(url: string) {
+  constructor(url?: string) {
     const pool = new Pool({
       connectionString: url,
     });

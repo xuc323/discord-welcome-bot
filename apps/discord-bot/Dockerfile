@@ -36,10 +36,14 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 bot
 USER bot
 
-COPY --from=installer --chown=bot:nodejs /app/apps/discord-bot ./discord-bot
+# Copy app files
+COPY --from=installer --chown=bot:nodejs /app/apps/discord-bot/dist ./
 COPY --from=installer --chown=bot:nodejs /app/node_modules ./node_modules
-COPY --from=installer --chown=bot:nodejs /app/packages ./packages
 
-WORKDIR /app/discord-bot
+# Copy package files
+COPY --from=installer --chown=bot:nodejs /app/packages/database/dist ./packages/database/dist
+COPY --from=installer --chown=bot:nodejs /app/packages/database/package.json ./packages/database
+COPY --from=installer --chown=bot:nodejs /app/packages/music-player/dist ./packages/music-player/dist
+COPY --from=installer --chown=bot:nodejs /app/packages/music-player/package.json ./packages/music-player
 
-CMD ["npm", "run", "start"]
+CMD ["node", "main.js"]
