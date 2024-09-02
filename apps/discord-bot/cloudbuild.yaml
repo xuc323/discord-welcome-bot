@@ -4,7 +4,7 @@ steps:
       [
         "build",
         "-t",
-        "${LOCATION}-docker.pkg.dev/${PROJECT_ID}/discord-bot:latest,
+        "${LOCATION}-docker.pkg.dev/${PROJECT_ID}/discord-bot:latest",
         "-f",
         "./apps/discord-bot/Dockerfile",
         ".",
