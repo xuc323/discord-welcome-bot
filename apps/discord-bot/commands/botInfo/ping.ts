@@ -1,12 +1,11 @@
-import { CommandInteraction, Message, SlashCommandBuilder } from "discord.js";
-import { Command, MyClient, SlashCommand } from "../../type";
+import { Message, SlashCommandBuilder } from "discord.js";
+import { Command, SlashCommand } from "../../type";
 
 export const basic: Command = {
   name: "ping",
   description: "Return bot's latency in ms.",
   args: false,
-  isLive: true,
-  execute(message: Message, args: string[], client: MyClient) {
+  execute(message, args, client) {
     // create ping
     const ping = client.ws.ping;
     // send the placeholder
@@ -25,7 +24,7 @@ export const slash: SlashCommand = {
   data: new SlashCommandBuilder()
     .setName("ping")
     .setDescription("Returen latency in miliseconds."),
-  execute(interaction: CommandInteraction) {
+  execute(interaction) {
     const ping = interaction.client.ws.ping;
     interaction
       .reply({ content: "Pinging...", fetchReply: true })

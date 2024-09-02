@@ -5,7 +5,6 @@ export const basic: Command = {
   description: "Skip to the next song.",
   aliases: ["n", "skip"],
   args: false,
-  isLive: true,
   execute(message, args, client) {
     // check if the queue exists
     const queue = client.player!.getQueue(message.guild!.id);

@@ -1,14 +1,12 @@
 import { RepeatMode } from "@repo/music-player";
-import { Message } from "discord.js";
-import { Command, MyClient } from "../../type";
+import { Command } from "../../type";
 
 export const basic: Command = {
   name: "loop",
   description: "Loop the queue.",
   aliases: ["l"],
   args: false,
-  isLive: true,
-  execute(message: Message, args: string[], client: MyClient) {
+  execute(message, args, client) {
     // check if the queue exists
     const queue = client.player!.getQueue(message.guild!.id);
     if (queue) {

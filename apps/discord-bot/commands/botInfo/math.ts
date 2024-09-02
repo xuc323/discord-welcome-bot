@@ -1,13 +1,11 @@
-import { Message } from "discord.js";
-import { Command, MyClient } from "../../type";
+import { Command } from "../../type";
 
 export const basic: Command = {
   name: "math",
   description: "Perform math calculation. (+-*/%^)",
   args: true,
   usage: "[num1] [operator] [num2]",
-  isLive: true,
-  execute(message: Message, args: string[], client: MyClient) {
+  execute(message, args, client) {
     if (args.length != 3) {
       return message.channel.send(
         `Please follow the format: \`${this.usage}\``

@@ -5,8 +5,7 @@ export const basic: Command = {
   name: "pause",
   description: "Pause the queue.",
   args: false,
-  isLive: false,
-  execute(message: Message, args: string[], client: MyClient) {
+  execute(message, args, client) {
     // check if the queue exists
     const queue = client.player!.getQueue(message.guild!.id);
     if (queue) {

@@ -7,7 +7,6 @@ export const basic: Command = {
   aliases: ["p"],
   args: true,
   usage: "[song name or url]",
-  isLive: true,
   async execute(message, args, client) {
     // create queue if not exists, otherwise get the queue
     const queue = client.player!.createQueue(
@@ -35,7 +34,7 @@ export const basic: Command = {
       await queue.play(args.join(" "), { requestedBy: message.author });
     } catch (err: any) {
       const error: Error = err;
-      console.log(`Music Play Error: ${err}`);
+      console.log(`Music Play Error: ${error.stack}`);
       message.channel.send(error.message);
     }
   },

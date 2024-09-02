@@ -1,12 +1,11 @@
-import { EmbedBuilder, Message } from "discord.js";
-import { Command, MyClient } from "../../type";
+import { EmbedBuilder } from "discord.js";
+import { Command } from "../../type";
 
 export const basic: Command = {
   name: "user",
   description: "Display user info.",
   args: false,
-  isLive: true,
-  execute(message: Message, args: string[], client: MyClient) {
+  execute(message, args, client) {
     const { createdAt, id, username, tag } = message.author;
     const emb = new EmbedBuilder()
       .setTitle(`User info for \`${username}\``)

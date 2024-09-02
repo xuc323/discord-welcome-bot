@@ -1,5 +1,4 @@
-import { Message } from "discord.js";
-import { Command, MyClient } from "../../type";
+import { Command } from "../../type";
 
 export const basic: Command = {
   name: "seek",
@@ -7,8 +6,7 @@ export const basic: Command = {
   args: true,
   aliases: ["fastforward", "ff"],
   usage: "[time in seconds]",
-  isLive: false,
-  async execute(message: Message, args: string[], client: MyClient) {
+  async execute(message, args, client) {
     // check if the queue exists
     const queue = client.player!.getQueue(message.guild!.id);
     if (queue) {

@@ -22,7 +22,6 @@ export interface Command {
   readonly args?: boolean;
   readonly aliases?: string[];
   readonly usage?: string;
-  readonly isLive: boolean;
   execute: (message: Message, args: string[], client: MyClient) => any;
 }
 

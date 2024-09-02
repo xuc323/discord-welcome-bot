@@ -1,13 +1,11 @@
-import { Message } from "discord.js";
-import { Command, MyClient } from "../../type";
+import { Command } from "../../type";
 
 export const basic: Command = {
   name: "shuffle",
   description: "Shuffle the queue.",
   aliases: ["shuf"],
   args: false,
-  isLive: true,
-  execute(message: Message, args: string[], client: MyClient) {
+  execute(message, args, client) {
     // check if the queue exists
     const queue = client.player!.getQueue(message.guild!.id);
     if (queue) {

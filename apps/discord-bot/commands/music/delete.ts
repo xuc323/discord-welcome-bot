@@ -1,5 +1,4 @@
-import { Message } from "discord.js";
-import { Command, MyClient } from "../../type";
+import { Command } from "../../type";
 
 export const basic: Command = {
   name: "delete",
@@ -7,8 +6,7 @@ export const basic: Command = {
   aliases: ["remove", "d"],
   args: true,
   usage: "[music number]",
-  isLive: true,
-  execute(message: Message, args: string[], client: MyClient) {
+  execute(message, args, client) {
     // check if the queue exists
     const queue = client.player!.getQueue(message.guild!.id);
     if (queue) {

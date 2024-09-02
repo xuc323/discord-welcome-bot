@@ -1,5 +1,5 @@
-import { GuildChannelResolvable, Message, TextChannel } from "discord.js";
-import { Command, MyClient } from "../../type";
+import { GuildChannelResolvable, TextChannel } from "discord.js";
+import { Command } from "../../type";
 
 export const basic: Command = {
   name: "playlist",
@@ -7,8 +7,7 @@ export const basic: Command = {
   aliases: ["pl"],
   args: true,
   usage: "[playlist url]",
-  isLive: false,
-  async execute(message: Message, args: string[], client: MyClient) {
+  async execute(message, args, client) {
     // create queue if not exists, otherwise get the queue
     const queue = client.player!.createQueue(
       message.guild!.id,

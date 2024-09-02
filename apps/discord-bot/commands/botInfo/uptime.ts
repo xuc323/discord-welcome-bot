@@ -1,13 +1,11 @@
-import { Message } from "discord.js";
-import { Command, MyClient } from "../../type";
+import { Command } from "../../type";
 
 export const basic: Command = {
   name: "uptime",
   description: "Display bot's uptime.",
   args: false,
   aliases: ["up"],
-  isLive: true,
-  execute(message: Message, args: string[], client: MyClient) {
+  execute(message, args, client) {
     // calculate how long the bot has been up
     let str: string[] = [];
     let duration = client.uptime!;

@@ -1,17 +1,11 @@
-import {
-  CommandInteraction,
-  EmbedBuilder,
-  Message,
-  SlashCommandBuilder,
-} from "discord.js";
-import { Command, MyClient, SlashCommand } from "../../type";
+import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { Command, SlashCommand } from "../../type";
 
 export const basic: Command = {
   name: "server",
   description: "Display server info.",
   args: false,
-  isLive: true,
-  execute(message: Message, args: string[], client: MyClient) {
+  execute(message, args, client) {
     const { name, memberCount, createdAt } = message.guild!;
     const emb = new EmbedBuilder()
       .setTitle(`Server info for \`${name}\``)
@@ -34,7 +28,7 @@ export const slash: SlashCommand = {
   data: new SlashCommandBuilder()
     .setName("server")
     .setDescription("Display server info."),
-  execute(interaction: CommandInteraction) {
+  execute(interaction) {
     const { name, memberCount, createdAt } = interaction.guild!;
     const emb = new EmbedBuilder()
       .setTitle(`Server info for \`${name}\``)
