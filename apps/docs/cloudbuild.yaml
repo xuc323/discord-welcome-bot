@@ -22,7 +22,7 @@ steps:
         "run",
         "deploy",
         "${_APP_NAME}",
-        --image",
+        "--image",
         "${LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/${_APP_NAME}:${COMMIT_SHA}",
         "--region",
         "${LOCATION}",
