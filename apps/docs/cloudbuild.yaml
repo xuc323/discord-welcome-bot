@@ -4,13 +4,33 @@ steps:
       [
         "build",
         "-t",
-        "${LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/docs:latest",
+        "${LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/${_APP_NAME}:${COMMIT_SHA}",
         "-f",
-        "./apps/docs/Dockerfile",
+        "./apps/${_APP_NAME}/Dockerfile",
         ".",
       ]
-timeout: 300s
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "push",
+        "${LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/${_APP_NAME}:${COMMIT_SHA}",
+      ]
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: gcloud
+    args:
+      [
+        "run",
+        "deploy",
+        "${_APP_NAME}",
+        --image",
+        "${LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/${_APP_NAME}:${COMMIT_SHA}",
+        "--region",
+        "${LOCATION}",
+      ]
+timeout: 600s
 images:
-  - ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/docs:latest
+  - ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/${_APP_NAME}:${COMMIT_SHA}
+substitutions:
+  _APP_NAME: NONE
 options:
   logging: CLOUD_LOGGING_ONLY
