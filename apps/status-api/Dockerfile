@@ -35,9 +35,9 @@ RUN adduser --system --uid 1001 hono
 USER hono
 
 COPY --from=installer --chown=hono:nodejs /app/node_modules ./node_modules
-COPY --from=installer --chown=hono:nodejs /app/apps/status-api/dist ./dist
+COPY --from=installer --chown=hono:nodejs /app/apps/status-api/dist ./
 # COPY --from=installer --chown=hono:nodejs /app/apps/status-api/package.json ./package.json
 
 EXPOSE 3000
 
-CMD ["node", "dist/main.js"]
+CMD ["node", "main.js"]
