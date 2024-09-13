@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import "./globals.css";
-import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "Discord Welcome Bot",
@@ -15,8 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
-        <Analytics />
+        <main>{children}</main>
       </body>
     </html>
   );
