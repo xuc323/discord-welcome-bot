@@ -2,18 +2,26 @@ import { Pool } from "pg";
 import { NodePgDatabase, drizzle } from "drizzle-orm/node-postgres";
 
 export class Database {
-  public postgres: NodePgDatabase;
+  private _postgres: NodePgDatabase;
 
-  constructor(url?: string) {
+  constructor(url?: string, cert?: string) {
     const pool = new Pool({
       connectionString: url,
+      ssl: {
+        rejectUnauthorized: true,
+        ca: cert,
+      },
     });
 
     pool.on("error", (err) => {
-      console.log(err);
+      console.log("ERR:", err);
     });
 
-    this.postgres = drizzle(pool);
+    this._postgres = drizzle(pool);
+  }
+
+  public get postgres() {
+    return this._postgres;
   }
 }
 

@@ -4,7 +4,13 @@ import { Client } from "pg";
 import "dotenv/config";
 
 const main = async () => {
-  const sql = new Client(process.env.POSTGRES_URL);
+  const sql = new Client({
+    connectionString: process.env.POSTGRES_URL,
+    ssl: {
+      rejectUnauthorized: true,
+      ca: process.env.CA_CERT,
+    },
+  });
 
   await sql.connect();
 
