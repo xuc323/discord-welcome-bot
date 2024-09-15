@@ -1,25 +1,40 @@
-import { search as yt_search } from "play-dl";
-import { Song } from "..";
 import { User } from "discord.js";
+import { video_info, YouTubeVideo, search as yt_search } from "play-dl";
+import { Song } from "..";
 
 export async function search(query: string, props: { requestedBy?: User }) {
-  const yt_info = await yt_search(query, { limit: 1 });
-  const first = yt_info.at(0);
+  let song_info: YouTubeVideo;
+  if (verifyUrl(query)) {
+    const yt_info = await video_info(query);
+    song_info = yt_info.video_details;
+  } else {
+    const yt_info = await yt_search(query, {
+      limit: 1,
+      source: { youtube: "video" },
+    });
+
+    const _song_info = yt_info.at(0);
+    if (!_song_info) {
+      throw new Error("No song found");
+    }
+
+    song_info = _song_info;
+  }
 
   const song = new Song({
-    id: first?.id!,
-    name: first?.title!,
-    author: first?.channel?.name!,
-    url: first?.url!,
-    thumbnail: first?.thumbnails.at(0)?.url!,
-    duration: first?.durationInSec!,
+    id: song_info.id!,
+    name: song_info.title!,
+    author: song_info.channel?.name!,
+    url: song_info.url!,
+    thumbnail: song_info.thumbnails.at(0)?.url!,
+    duration: song_info.durationInSec!,
     requestedBy: props.requestedBy,
   });
 
   return song;
 }
 
-export async function verifyUrl(url: string) {
+export function verifyUrl(url: string) {
   if (RegexList.YouTubeVideo.test(url)) {
     return true;
   }
