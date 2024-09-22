@@ -11,7 +11,7 @@ steps:
         "./apps/discord-bot/Dockerfile",
         ".",
       ]
-timeout: 300s
+timeout: 600s
 images:
   - ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/images/${_APP_NAME}:${COMMIT_SHA}
   - ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/images/${_APP_NAME}:latest
