@@ -1,4 +1,4 @@
-import { joinVoiceChannel } from "@discordjs/voice";
+import { demuxProbe, joinVoiceChannel } from "@discordjs/voice";
 import {
   ChannelType,
   Guild,
@@ -9,8 +9,8 @@ import {
   User,
   VoiceChannel,
 } from "discord.js";
-import { stream } from "play-dl";
 import { Connection, Player, search, Song } from "..";
+import ytdl from "@distube/ytdl-core";
 
 export enum RepeatMode {
   DISABLED,
@@ -53,8 +53,7 @@ export class Queue {
       | StageChannel
       | VoiceChannel;
     if (!channel) {
-      this._player.emit("error", "", this);
-      throw "Not a Voice Channel";
+      throw new Error("Not a Voice Channel");
     }
 
     if (
@@ -62,8 +61,7 @@ export class Queue {
         channel.type
       )
     ) {
-      this._player.emit("error", "", this);
-      throw "Not a Voice Channel Right?";
+      throw new Error("Not a Voice Channel Right?");
     }
 
     // check if the client has permission to CONNECT
@@ -72,7 +70,6 @@ export class Queue {
         .permissionsFor(this._player.client.user!)
         ?.has(PermissionFlagsBits.Connect)
     ) {
-      this._player.emit("error", "", this);
       this._destroyed = true;
       this._player.deleteQueue(this._guild.id);
       throw new Error("No permission to join the Voice Channel");
@@ -87,11 +84,11 @@ export class Queue {
 
     this._connection = new Connection(conn, channel);
 
-    this._connection.on("start", (resource) => {
+    this._connection.on("start", () => {
       this._isPlaying = true;
     });
 
-    this._connection.on("end", async (resource) => {
+    this._connection.on("end", async () => {
       if (this._destroyed) {
         return;
       }
@@ -121,8 +118,7 @@ export class Queue {
 
   public async play(query: string, props?: { requestedBy: User }) {
     if (!this._connection) {
-      this._player.emit("error", "", this);
-      throw "No Voice Connection";
+      throw new Error("No Voice Connection");
     }
 
     let song;
@@ -147,9 +143,15 @@ export class Queue {
   private async _play() {
     const song = this._songs.at(0);
 
-    const _stream = await stream(song!.url);
+    const _stream = ytdl(song!.url, {
+      filter: "audioonly",
+      quality: "highestaudio",
+      highWaterMark: 1 << 25,
+    });
 
-    const resource = this._connection?.createAudioStream(_stream, song!);
+    const { stream, type } = await demuxProbe(_stream);
+
+    const resource = this._connection?.createAudioStream(stream, type, song!);
 
     this._connection?.playAudioStream(resource!);
   }
@@ -170,8 +172,7 @@ export class Queue {
 
   public skip() {
     if (!this._connection) {
-      this._player.emit("error", "", this);
-      throw "No Voice Connection";
+      throw new Error("No Voice Connection");
     }
 
     const song = this._songs.at(0);
@@ -192,8 +193,7 @@ export class Queue {
 
   public setRepeatMode(mode: RepeatMode) {
     if (!Object.values(RepeatMode).includes(mode)) {
-      this._player.emit("error", "", this);
-      throw "Not a repeat mode";
+      throw new Error("Not a repeat mode");
     }
 
     this._repeatMode = mode;
@@ -223,7 +223,7 @@ export class Queue {
   }
 
   public get nowPlaying() {
-    return this._connection?.resource?.metadata ?? this._songs.at(0);
+    return this._songs.at(0);
   }
 
   public get songs() {

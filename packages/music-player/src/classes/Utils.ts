@@ -1,11 +1,28 @@
+import { validateURL } from "@distube/ytdl-core";
 import { User } from "discord.js";
 import { video_info, YouTubeVideo, search as yt_search } from "play-dl";
 import { Song } from "..";
 
+/**
+ * This function searches for the source based on the search query.
+ *
+ * @param query Space separated string search query or URL
+ * @param props
+ * @returns
+ */
 export async function search(query: string, props: { requestedBy?: User }) {
   let song_info: YouTubeVideo;
-  if (verifyUrl(query)) {
-    const yt_info = await video_info(query);
+
+  if (validateURL(query)) {
+    let yt_info;
+    try {
+      yt_info = await video_info(query);
+    } catch (err) {
+      const error = err as Error;
+      console.log(error);
+      throw new Error(error.message);
+    }
+
     song_info = yt_info.video_details;
   } else {
     const yt_info = await yt_search(query, {
@@ -32,22 +49,4 @@ export async function search(query: string, props: { requestedBy?: User }) {
   });
 
   return song;
-}
-
-export function verifyUrl(url: string) {
-  if (RegexList.YouTubeVideo.test(url)) {
-    return true;
-  }
-  return false;
-}
-
-export class RegexList {
-  public static readonly YouTubeVideo =
-    /^((?:https?:)\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))((?!channel)(?!user)\/(?:[\w\-]+\?v=|embed\/|v\/)?)((?!channel)(?!user)[\w\-]+)/;
-  public static readonly YouTubeVideoTime = /(([?]|[&])t=(\d+))/;
-  public static readonly YouTubeVideoID =
-    /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-  public static readonly YouTubePlaylist =
-    /^((?:https?:)\/\/)?((?:www|m)\.)?((?:youtube\.com)).*(youtu.be\/|list=)([^#&?]*).*/;
-  public static readonly YouTubePlaylistID = /[&?]list=([^&]+)/;
 }

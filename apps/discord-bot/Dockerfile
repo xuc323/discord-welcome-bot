@@ -15,7 +15,7 @@ RUN turbo prune discord-bot --docker
 # Add lockfile and package.json's of isolated subworkspace
 FROM base AS installer
 RUN apk update
-RUN apk add --no-cache python3 make g++ libc6-compat
+RUN apk add --no-cache python3 make g++ libc6-compat autoconf automake libtool
 WORKDIR /app
 
 # First install the dependencies (as they change less often)

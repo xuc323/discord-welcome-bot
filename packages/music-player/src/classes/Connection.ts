@@ -1,6 +1,7 @@
 import {
   AudioPlayer,
   AudioPlayerError,
+  AudioPlayerPlayingState,
   AudioPlayerStatus,
   AudioResource,
   createAudioPlayer,
@@ -8,12 +9,13 @@ import {
   entersState,
   joinVoiceChannel,
   NoSubscriberBehavior,
+  StreamType,
   VoiceConnection,
   VoiceConnectionStatus,
 } from "@discordjs/voice";
 import { StageChannel, VoiceChannel } from "discord.js";
 import EventEmitter from "node:events";
-import { SoundCloudStream, YouTubeStream } from "play-dl";
+import { Readable } from "node:stream";
 import { Song } from "..";
 
 /**
@@ -21,8 +23,8 @@ import { Song } from "..";
  * playing or finished
  */
 export interface ConnectionEvents {
-  start: [resource: AudioResource<Song>];
-  end: [resource: AudioResource<Song>];
+  start: [];
+  end: [];
   error: [error: AudioPlayerError];
 }
 
@@ -33,8 +35,6 @@ export class Connection extends EventEmitter {
   private _player: AudioPlayer;
   /** Channel that the music will be played */
   private _channel: VoiceChannel | StageChannel;
-  /** AudioResource created by calling {@link createAudioResource} */
-  private _resource?: AudioResource<Song>;
 
   constructor(
     connection: VoiceConnection,
@@ -70,14 +70,13 @@ export class Connection extends EventEmitter {
         newState.status === AudioPlayerStatus.Idle
       ) {
         // the player enters Idle state just now
-        this.emit("end", this._resource!);
-        this._resource = undefined;
+        this.emit("end");
       } else if (
         oldState.status !== AudioPlayerStatus.Playing &&
         newState.status === AudioPlayerStatus.Playing
       ) {
         // the player enters Playing state just now
-        this.emit("start", this._resource!);
+        this.emit("start");
       }
     });
 
@@ -88,17 +87,13 @@ export class Connection extends EventEmitter {
     this._connection.subscribe(this._player);
   }
 
-  public createAudioStream(
-    stream: YouTubeStream | SoundCloudStream,
-    metadata: Song
-  ) {
-    this._resource = createAudioResource(stream.stream, {
-      inputType: stream.type,
-      inlineVolume: true,
+  public createAudioStream(stream: Readable, type: StreamType, metadata: Song) {
+    const resource = createAudioResource(stream, {
+      inputType: type,
       metadata: metadata,
     });
 
-    return this._resource;
+    return resource;
   }
 
   public async playAudioStream(resource: AudioResource<Song>) {
@@ -107,9 +102,6 @@ export class Connection extends EventEmitter {
     }
     if (!resource) {
       throw new Error("Resource not ready");
-    }
-    if (!this._resource) {
-      this._resource = resource;
     }
 
     if (this._connection.state.status !== VoiceConnectionStatus.Ready) {
@@ -132,6 +124,11 @@ export class Connection extends EventEmitter {
     }
   }
 
+  public get time() {
+    return (this._player.state as AudioPlayerPlayingState).resource
+      .playbackDuration;
+  }
+
   public get connection() {
     return this._connection;
   }
@@ -142,10 +139,6 @@ export class Connection extends EventEmitter {
 
   public get channel() {
     return this._channel;
-  }
-
-  public get resource() {
-    return this._resource;
   }
 
   public once<E extends keyof ConnectionEvents>(
