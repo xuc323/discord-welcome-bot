@@ -110,6 +110,7 @@ export class Queue {
     });
 
     this._connection.on("error", (err) => {
+      console.log("Music player error: ", err);
       this._player.emit("error", err.name, this);
     });
 
@@ -146,7 +147,7 @@ export class Queue {
     const _stream = ytdl(song!.url, {
       filter: "audioonly",
       quality: "highestaudio",
-      highWaterMark: 1 << 25,
+      highWaterMark: 1024 * 1024, // Buffer 1MB
     });
 
     const { stream, type } = await demuxProbe(_stream);
