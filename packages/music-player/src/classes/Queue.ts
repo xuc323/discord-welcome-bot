@@ -1,4 +1,4 @@
-import { demuxProbe, joinVoiceChannel } from "@discordjs/voice";
+import { joinVoiceChannel } from "@discordjs/voice";
 import {
   ChannelType,
   Guild,
@@ -9,8 +9,8 @@ import {
   User,
   VoiceChannel,
 } from "discord.js";
+import { stream } from "play-dl";
 import { Connection, Player, search, Song } from "..";
-import ytdl from "@distube/ytdl-core";
 
 export enum RepeatMode {
   DISABLED,
@@ -144,15 +144,9 @@ export class Queue {
   private async _play() {
     const song = this._songs.at(0);
 
-    const _stream = ytdl(song!.url, {
-      filter: "audioonly",
-      quality: "highestaudio",
-      highWaterMark: 1024 * 1024, // Buffer 1MB
-    });
+    const _stream = await stream(song!.url);
 
-    const { stream, type } = await demuxProbe(_stream);
-
-    const resource = this._connection?.createAudioStream(stream, type, song!);
+    const resource = this._connection?.createAudioStream(_stream, song!);
 
     this._connection?.playAudioStream(resource!);
   }

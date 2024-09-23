@@ -1,6 +1,10 @@
-import { validateURL } from "@distube/ytdl-core";
 import { User } from "discord.js";
-import { video_info, YouTubeVideo, search as yt_search } from "play-dl";
+import {
+  video_info,
+  YouTubeVideo,
+  search as yt_search,
+  yt_validate,
+} from "play-dl";
 import { Song } from "..";
 
 /**
@@ -13,7 +17,7 @@ import { Song } from "..";
 export async function search(query: string, props: { requestedBy?: User }) {
   let song_info: YouTubeVideo;
 
-  if (validateURL(query)) {
+  if (query.startsWith("https") && yt_validate(query) === "video") {
     let yt_info;
     try {
       yt_info = await video_info(query);

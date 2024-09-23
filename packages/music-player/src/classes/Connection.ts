@@ -9,13 +9,12 @@ import {
   entersState,
   joinVoiceChannel,
   NoSubscriberBehavior,
-  StreamType,
   VoiceConnection,
   VoiceConnectionStatus,
 } from "@discordjs/voice";
 import { StageChannel, VoiceChannel } from "discord.js";
 import EventEmitter from "node:events";
-import { Readable } from "node:stream";
+import { SoundCloudStream, YouTubeStream } from "play-dl";
 import { Song } from "..";
 
 /**
@@ -87,9 +86,12 @@ export class Connection extends EventEmitter {
     this._connection.subscribe(this._player);
   }
 
-  public createAudioStream(stream: Readable, type: StreamType, metadata: Song) {
-    const resource = createAudioResource(stream, {
-      inputType: type,
+  public createAudioStream(
+    stream: YouTubeStream | SoundCloudStream,
+    metadata: Song
+  ) {
+    const resource = createAudioResource(stream.stream, {
+      inputType: stream.type,
       metadata: metadata,
     });
 
