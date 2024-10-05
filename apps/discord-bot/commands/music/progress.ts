@@ -13,21 +13,19 @@ export const basic: Command = {
       try {
         const bar = queue.createProgressBar();
         if (bar) {
-          message.channel.send(`${queue.nowPlaying?.name}\n${bar.prettier}`);
+          message.channel.send(`${queue.nowPlaying?.name}\n${bar}`);
         } else {
           message.channel.send(
-            "ERROR: Failed to create progress bar. Try again later."
+            "Progress bar creation is not supported for this song."
           );
         }
-      } catch (err: any) {
-        const error: Error = err;
+      } catch (err) {
+        const error = err as Error;
         message.channel.send(error.message);
       }
     } else {
       // the queue doesn't exist
-      message.channel.send(
-        `WARNING: Queue is empty, can't perform \`${this.name}\`.`
-      );
+      message.channel.send(`Queue is empty, can't perform \`${this.name}\`.`);
     }
   },
 };

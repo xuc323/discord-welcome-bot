@@ -11,6 +11,7 @@ import * as cleave from "./music/leave";
 import * as cloop from "./music/loop";
 import * as cnext from "./music/next";
 import * as cplay from "./music/play";
+import * as cprogress from "./music/progress";
 import * as cqueue from "./music/queue";
 import * as creset from "./music/reset";
 import * as cshuffle from "./music/shuffle";
@@ -28,6 +29,7 @@ export default [
   cloop,
   cnext,
   cplay,
+  cprogress,
   cqueue,
   creset,
   cshuffle,

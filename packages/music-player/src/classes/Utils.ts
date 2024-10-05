@@ -54,3 +54,50 @@ export async function search(query: string, props: { requestedBy?: User }) {
 
   return song;
 }
+
+export function msToTime(duration: number) {
+  const times: string[] = [];
+
+  const msInHour = 1000 * 60 * 60;
+  const hours = Math.trunc(duration / msInHour);
+  if (hours > 0) {
+    times.push(`${hours}`.padStart(2, "0"));
+    duration = duration - hours * msInHour;
+  }
+
+  const msInMinute = 1000 * 60;
+  const minutes = Math.trunc(duration / msInMinute);
+  times.push(`${minutes}`.padStart(2, "0"));
+  if (minutes > 0) {
+    duration = duration - minutes * msInMinute;
+  }
+
+  const msInSecond = 1000;
+  const seconds = Math.trunc(duration / msInSecond);
+  times.push(`${seconds}`.padStart(2, "0"));
+
+  return times.join(":");
+}
+
+export function sToTime(duration: number) {
+  const times: string[] = [];
+
+  const sInHour = 60 * 60;
+  const hours = Math.trunc(duration / sInHour);
+  if (hours > 0) {
+    times.push(`${hours}`.padStart(2, "0"));
+    duration = duration - hours * sInHour;
+  }
+
+  const sInMinute = 60;
+  const minutes = Math.trunc(duration / sInMinute);
+  times.push(`${minutes}`.padStart(2, "0"));
+  if (minutes > 0) {
+    duration = duration - minutes * sInMinute;
+  }
+
+  const seconds = duration;
+  times.push(`${seconds}`.padStart(2, "0"));
+
+  return times.join(":");
+}

@@ -10,7 +10,7 @@ import {
   VoiceChannel,
 } from "discord.js";
 import { stream } from "play-dl";
-import { Connection, Player, search, Song } from "..";
+import { Connection, msToTime, Player, search, Song, sToTime } from "..";
 
 export enum RepeatMode {
   DISABLED,
@@ -182,8 +182,30 @@ export class Queue {
 
   public stop() {}
 
+  /**
+   * Calculate the durations and create a progress bar
+   *
+   * @returns Formatted progress bar
+   */
   public createProgressBar() {
-    return { prettier: "" };
+    // get the string representation of song duration
+    let songDuration = "";
+    const sDuration = this.nowPlaying?.duration;
+    if (sDuration) {
+      songDuration = sToTime(sDuration);
+    } else {
+      // return early as the song is not supported
+      return null;
+    }
+
+    // get the string representation of playback duration
+    let playbackDuration = "";
+    const pDuration = this._connection?.time;
+    if (pDuration) {
+      playbackDuration = msToTime(pDuration);
+    }
+
+    return `[${playbackDuration}/${songDuration}]`;
   }
 
   public setRepeatMode(mode: RepeatMode) {

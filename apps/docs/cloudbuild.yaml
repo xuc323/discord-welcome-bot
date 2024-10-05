@@ -11,25 +11,7 @@ steps:
         "./apps/docs/Dockerfile",
         ".",
       ]
-  - name: "gcr.io/cloud-builders/docker"
-    args:
-      [
-        "push",
-        "${LOCATION}-docker.pkg.dev/${PROJECT_ID}/images/${_APP_NAME}:${COMMIT_SHA}",
-      ]
-  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
-    entrypoint: gcloud
-    args:
-      [
-        "run",
-        "deploy",
-        "${_APP_NAME}",
-        "--image",
-        "${LOCATION}-docker.pkg.dev/${PROJECT_ID}/images/${_APP_NAME}:${COMMIT_SHA}",
-        "--region",
-        "${LOCATION}",
-      ]
-timeout: 600s
+timeout: 300s
 images:
   - ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/images/${_APP_NAME}:${COMMIT_SHA}
   - ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/images/${_APP_NAME}:latest

@@ -1,7 +1,6 @@
 import {
   AudioPlayer,
   AudioPlayerError,
-  AudioPlayerPlayingState,
   AudioPlayerStatus,
   AudioResource,
   createAudioPlayer,
@@ -127,8 +126,14 @@ export class Connection extends EventEmitter {
   }
 
   public get time() {
-    return (this._player.state as AudioPlayerPlayingState).resource
-      .playbackDuration;
+    if (
+      this._player.state.status === AudioPlayerStatus.Idle ||
+      this._player.state.status === AudioPlayerStatus.Buffering
+    ) {
+      return null;
+    }
+
+    return this._player.state.resource.playbackDuration;
   }
 
   public get connection() {
