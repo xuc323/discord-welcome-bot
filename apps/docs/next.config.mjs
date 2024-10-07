@@ -5,6 +5,4 @@ const withNextra = nextra({
   themeConfig: "./theme.config.tsx",
 });
 
-export default withNextra({
-  output: "standalone",
-});
+export default withNextra();
