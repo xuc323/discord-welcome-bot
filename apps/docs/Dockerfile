@@ -10,12 +10,12 @@ RUN npm install -g turbo@2
 COPY . .
 
 # Generate a partial monorepo with a pruned lockfile for a target workspace.
-RUN turbo prune discord-bot --docker
+RUN turbo prune discord-bot-docs --docker
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM base AS installer
 RUN apk update
-RUN apk add --no-cache python3 make g++ libc6-compat autoconf automake libtool
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # First install the dependencies (as they change less often)
@@ -26,24 +26,20 @@ RUN npm clean-install
 COPY --from=builder /app/out/full/ .
 RUN npm run build
 
-RUN npm prune --omit=dev
-
 FROM base AS runner
 WORKDIR /app
 
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 bot
-USER bot
+USER nextjs
 
-# Copy app files
-COPY --from=installer --chown=bot:nodejs /app/apps/discord-bot/dist ./
-COPY --from=installer --chown=bot:nodejs /app/node_modules ./node_modules
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=installer --chown=nextjs:nodejs /app/apps/docs/.next/standalone ./
+COPY --from=installer --chown=nextjs:nodejs /app/apps/docs/.next/static ./apps/docs/.next/static
+# COPY --from=installer --chown=nextjs:nodejs /app/apps/docs/public ./apps/docs/public
 
-# Copy package files
-COPY --from=installer --chown=bot:nodejs /app/packages/database/dist ./packages/database/dist
-COPY --from=installer --chown=bot:nodejs /app/packages/database/package.json ./packages/database
-COPY --from=installer --chown=bot:nodejs /app/packages/music-player/dist ./packages/music-player/dist
-COPY --from=installer --chown=bot:nodejs /app/packages/music-player/package.json ./packages/music-player
+EXPOSE 3000
 
-CMD ["node", "main.js"]
+CMD ["node", "apps/docs/server.js"]
