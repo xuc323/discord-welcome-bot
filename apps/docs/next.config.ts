@@ -5,4 +5,4 @@ const withNextra = nextra({
   themeConfig: "./theme.config.tsx",
 });
 
-export default withNextra({ compress: false, output: "standalone" });
+export default withNextra({ output: "standalone" });

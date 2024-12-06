@@ -5,7 +5,9 @@ RUN apk update
 RUN apk add --no-cache libc6-compat
 # Set working directory
 WORKDIR /app
-# Replace <your-major-version> with the major version installed in your repository. For example:
+
+ENV TURBO_TELEMETRY_DISABLED=1
+
 RUN npm install -g turbo@2
 COPY . .
 
@@ -18,6 +20,9 @@ RUN apk update
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
+ENV TURBO_TELEMETRY_DISABLED=1
+ENV NEXT_TELEMETRY_DISABLED=1
+
 # First install the dependencies (as they change less often)
 COPY --from=builder /app/out/json/ .
 RUN npm clean-install
@@ -28,6 +33,8 @@ RUN npm run build
 
 FROM base AS runner
 WORKDIR /app
+
+ENV NEXT_TELEMETRY_DISABLED=1
 
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs

@@ -5,7 +5,9 @@ RUN apk update
 RUN apk add --no-cache libc6-compat
 # Set working directory
 WORKDIR /app
-# Replace <your-major-version> with the major version installed in your repository. For example:
+
+ENV TURBO_TELEMETRY_DISABLED=1
+
 RUN npm install -g turbo@2
 COPY . .
 
@@ -17,6 +19,8 @@ FROM base AS installer
 RUN apk update
 RUN apk add --no-cache python3 make g++ libc6-compat autoconf automake libtool
 WORKDIR /app
+
+ENV TURBO_TELEMETRY_DISABLED=1
 
 # First install the dependencies (as they change less often)
 COPY --from=builder /app/out/json/ .
