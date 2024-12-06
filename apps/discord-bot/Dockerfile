@@ -17,7 +17,7 @@ RUN turbo prune discord-bot --docker
 # Add lockfile and package.json's of isolated subworkspace
 FROM base AS installer
 RUN apk update
-RUN apk add --no-cache python3 make g++ libc6-compat autoconf automake libtool
+RUN apk add --no-cache libc6-compat build-base python3 autoconf automake libtool
 WORKDIR /app
 
 ENV TURBO_TELEMETRY_DISABLED=1

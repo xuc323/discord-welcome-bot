@@ -13,7 +13,7 @@ steps:
         "-t",
         "${LOCATION}-docker.pkg.dev/${PROJECT_ID}/images/${_APP_NAME}:latest",
         "-f",
-        "./apps/discord-bot/Dockerfile",
+        "./apps/docs/Dockerfile",
         ".",
       ]
 substitutions:
