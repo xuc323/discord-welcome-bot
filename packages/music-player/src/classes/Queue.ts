@@ -1,7 +1,4 @@
-import {
-  DiscordGatewayAdapterCreator,
-  joinVoiceChannel,
-} from "@discordjs/voice";
+import { joinVoiceChannel } from "@discordjs/voice";
 import {
   ChannelType,
   Guild,
@@ -81,8 +78,7 @@ export class Queue {
     const conn = joinVoiceChannel({
       guildId: channel.guild.id,
       channelId: channel.id,
-      adapterCreator: channel.guild
-        .voiceAdapterCreator as DiscordGatewayAdapterCreator,
+      adapterCreator: channel.guild.voiceAdapterCreator,
       selfDeaf: false,
     });
 
