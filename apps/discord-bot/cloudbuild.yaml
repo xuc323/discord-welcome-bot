@@ -7,7 +7,7 @@ steps:
         "buildx",
         "build",
         "--platform",
-        "linux/arm64,linux/amd64",
+        "linux/arm64",
         "-t",
         "${LOCATION}-docker.pkg.dev/${PROJECT_ID}/images/${_APP_NAME}:${COMMIT_SHA}",
         "-t",
@@ -16,7 +16,7 @@ steps:
         "./apps/discord-bot/Dockerfile",
         ".",
       ]
-timeout: 600s
+timeout: 900s
 images:
   - ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/images/${_APP_NAME}:${COMMIT_SHA}
   - ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/images/${_APP_NAME}:latest
