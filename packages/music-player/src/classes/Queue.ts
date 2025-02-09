@@ -1,15 +1,14 @@
-import { joinVoiceChannel } from "@discordjs/voice";
-import {
-  ChannelType,
+import { demuxProbe, joinVoiceChannel } from "@discordjs/voice";
+import ytdl from "@distube/ytdl-core";
+import type {
   Guild,
   GuildChannelResolvable,
-  PermissionFlagsBits,
   StageChannel,
   TextChannel,
   User,
   VoiceChannel,
 } from "discord.js";
-import { stream } from "play-dl";
+import { ChannelType, PermissionFlagsBits } from "discord.js";
 import { Connection, msToTime, Player, search, Song, sToTime } from "..";
 
 export enum RepeatMode {
@@ -144,9 +143,15 @@ export class Queue {
   private async _play() {
     const song = this._songs.at(0);
 
-    const _stream = await stream(song!.url);
+    const _stream = ytdl(song!.url, {
+      filter: "audioonly",
+      quality: "highestaudio",
+      highWaterMark: 1 << 25,
+    });
 
-    const resource = this._connection?.createAudioStream(_stream, song!);
+    const { stream, type } = await demuxProbe(_stream);
+
+    const resource = this._connection?.createAudioStream(stream, type, song!);
 
     this._connection?.playAudioStream(resource!);
   }

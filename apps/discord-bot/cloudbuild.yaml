@@ -1,0 +1,26 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["buildx", "create", "--use"]
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "buildx",
+        "build",
+        "--platform",
+        "linux/arm64,linux/amd64",
+        "-t",
+        "${LOCATION}-docker.pkg.dev/${PROJECT_ID}/images/${_APP_NAME}:${COMMIT_SHA}",
+        "-t",
+        "${LOCATION}-docker.pkg.dev/${PROJECT_ID}/images/${_APP_NAME}:latest",
+        "-f",
+        "./apps/discord-bot/Dockerfile",
+        ".",
+      ]
+timeout: 600s
+images:
+  - ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/images/${_APP_NAME}:${COMMIT_SHA}
+  - ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/images/${_APP_NAME}:latest
+substitutions:
+  _APP_NAME: NONE
+options:
+  logging: CLOUD_LOGGING_ONLY

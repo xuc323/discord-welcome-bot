@@ -1,19 +1,22 @@
-import {
+import type {
   AudioPlayer,
   AudioPlayerError,
-  AudioPlayerStatus,
   AudioResource,
+  StreamType,
+  VoiceConnection,
+} from "@discordjs/voice";
+import {
+  AudioPlayerStatus,
   createAudioPlayer,
   createAudioResource,
   entersState,
   joinVoiceChannel,
   NoSubscriberBehavior,
-  VoiceConnection,
   VoiceConnectionStatus,
 } from "@discordjs/voice";
-import { StageChannel, VoiceChannel } from "discord.js";
+import type { StageChannel, VoiceChannel } from "discord.js";
 import EventEmitter from "node:events";
-import { SoundCloudStream, YouTubeStream } from "play-dl";
+import type { Readable } from "node:stream";
 import { Song } from "..";
 
 /**
@@ -85,12 +88,9 @@ export class Connection extends EventEmitter {
     this._connection.subscribe(this._player);
   }
 
-  public createAudioStream(
-    stream: YouTubeStream | SoundCloudStream,
-    metadata: Song
-  ) {
-    const resource = createAudioResource(stream.stream, {
-      inputType: stream.type,
+  public createAudioStream(stream: Readable, type: StreamType, metadata: Song) {
+    const resource = createAudioResource(stream, {
+      inputType: type,
       metadata: metadata,
     });
 
