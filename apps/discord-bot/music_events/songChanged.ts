@@ -4,6 +4,6 @@ import { PlayerEvent } from "../type";
 export const event: PlayerEvent<PlayerEventNames.songChanged> = {
   name: PlayerEventNames.songChanged,
   execute(client, queue, oldSong, newSong) {
-    queue.messageChannel.send(`**${newSong}** is now playing.`);
+    queue.messageChannel.send(`@silent **${newSong}** is now playing.`);
   },
 };
