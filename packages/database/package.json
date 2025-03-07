@@ -11,7 +11,7 @@
     "pg:generate": "drizzle-kit generate",
     "pg:up": "drizzle-kit up",
     "pg:drop": "drizzle-kit drop",
-    "pg:migrate": "ts-node migrate.ts"
+    "pg:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
     "dotenv": "^16.4.7",
@@ -22,7 +22,6 @@
     "@types/node": "^22.13.9",
     "@types/pg": "^8.11.11",
     "drizzle-kit": "^0.30.5",
-    "ts-node": "^10.9.2",
     "tsup": "^8.4.0",
     "typescript": "^5.7.3"
   }

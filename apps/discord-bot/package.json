@@ -7,8 +7,8 @@
     "start": "node ./dist/main.js",
     "dev": "tsx watch main.ts",
     "test": "jest",
-    "build": "node esbuild.config.mjs",
-    "deploy": "ts-node deploy.ts",
+    "build": "tsx esbuild.config.ts",
+    "deploy": "tsx deploy.ts",
     "clean": "rm -rf ./dist"
   },
   "engines": {
@@ -26,7 +26,6 @@
     "esbuild": "^0.25.0",
     "jest": "^29.7.0",
     "ts-jest": "^29.2.6",
-    "ts-node": "^10.9.2",
     "tsx": "^4.19.3",
     "typescript": "^5.7.3"
   }
