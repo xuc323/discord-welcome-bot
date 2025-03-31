@@ -1,4 +1,5 @@
 import { demuxProbe, joinVoiceChannel } from "@discordjs/voice";
+import ytdl from "@distube/ytdl-core";
 import type {
   Guild,
   GuildChannelResolvable,
@@ -8,7 +9,6 @@ import type {
   VoiceChannel,
 } from "discord.js";
 import { ChannelType, PermissionFlagsBits } from "discord.js";
-import ytdl from "@distube/ytdl-core";
 import { Connection, msToTime, Player, search, Song, sToTime } from "..";
 
 export enum RepeatMode {
