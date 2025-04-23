@@ -13,7 +13,7 @@
     "clean": "turbo run clean"
   },
   "devDependencies": {
-    "turbo": "^2.4.4"
+    "turbo": "^2.5.0"
   },
   "engines": {
     "node": ">=18"

@@ -1,5 +1,4 @@
-import { demuxProbe, joinVoiceChannel } from "@discordjs/voice";
-import ytdl from "@distube/ytdl-core";
+import { joinVoiceChannel } from "@discordjs/voice";
 import type {
   Guild,
   GuildChannelResolvable,
@@ -9,6 +8,8 @@ import type {
   VoiceChannel,
 } from "discord.js";
 import { ChannelType, PermissionFlagsBits } from "discord.js";
+import { Readable } from "node:stream";
+import { Innertube, UniversalCache } from "youtubei.js";
 import { Connection, msToTime, Player, search, Song, sToTime } from "..";
 
 export enum RepeatMode {
@@ -26,6 +27,7 @@ export class Queue {
   private _isPlaying: boolean;
   private _repeatMode: RepeatMode;
   private _destroyed: boolean;
+  private _innerTube: Innertube | undefined;
 
   constructor(player: Player, guild: Guild, channel: TextChannel) {
     this._player = player;
@@ -143,17 +145,18 @@ export class Queue {
   private async _play() {
     const song = this._songs.at(0);
 
-    const _stream = ytdl(song!.url, {
-      filter: "audioonly",
-      quality: "lowestaudio",
-      liveBuffer: 1 << 30,
-      highWaterMark: 1 << 30,
-      dlChunkSize: 0,
-    });
+    if (!this._innerTube) {
+      this._innerTube = await Innertube.create({
+        cache: new UniversalCache(false),
+      });
+    }
 
-    const { stream, type } = await demuxProbe(_stream);
+    const stream = await this._innerTube.download(song!.id, { type: "audio" });
 
-    const resource = this._connection?.createAudioStream(stream, type, song!);
+    const resource = this._connection?.createAudioStream(
+      Readable.from(stream),
+      song!
+    );
 
     this._connection?.playAudioStream(resource!);
   }
