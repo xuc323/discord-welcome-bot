@@ -1,4 +1,4 @@
-import { joinVoiceChannel } from "@discordjs/voice";
+import { demuxProbe, joinVoiceChannel } from "@discordjs/voice";
 import type {
   Guild,
   GuildChannelResolvable,
@@ -8,8 +8,7 @@ import type {
   VoiceChannel,
 } from "discord.js";
 import { ChannelType, PermissionFlagsBits } from "discord.js";
-import { Readable } from "node:stream";
-import { Innertube, UniversalCache } from "youtubei.js";
+import youtubeDl from "youtube-dl-exec";
 import { Connection, msToTime, Player, search, Song, sToTime } from "..";
 
 export enum RepeatMode {
@@ -27,7 +26,7 @@ export class Queue {
   private _isPlaying: boolean;
   private _repeatMode: RepeatMode;
   private _destroyed: boolean;
-  private _innerTube: Innertube | undefined;
+  private _subprocess?: any;
 
   constructor(player: Player, guild: Guild, channel: TextChannel) {
     this._player = player;
@@ -95,6 +94,7 @@ export class Queue {
       }
 
       this._isPlaying = false;
+      this._subprocess = null;
       const oldSong = this._songs.shift();
       if (
         this._songs.length === 0 &&
@@ -145,18 +145,16 @@ export class Queue {
   private async _play() {
     const song = this._songs.at(0);
 
-    if (!this._innerTube) {
-      this._innerTube = await Innertube.create({
-        cache: new UniversalCache(false),
-      });
-    }
+    const subprocess = youtubeDl.exec(song!.url, {
+      output: "-",
+      format: "bestaudio",
+      quiet: true,
+    });
+    this._subprocess = subprocess;
 
-    const stream = await this._innerTube.download(song!.id, { type: "audio" });
+    const { stream, type } = await demuxProbe(this._subprocess.stdout!);
 
-    const resource = this._connection?.createAudioStream(
-      Readable.from(stream),
-      song!
-    );
+    const resource = this._connection?.createAudioStream(stream, type, song!);
 
     this._connection?.playAudioStream(resource!);
   }
@@ -180,6 +178,8 @@ export class Queue {
       throw new Error("No Voice Connection");
     }
 
+    this.stop();
+
     const song = this._songs.at(0);
     this._connection.stop();
 
@@ -190,7 +190,12 @@ export class Queue {
     return false;
   }
 
-  public stop() {}
+  public stop() {
+    if (this._subprocess) {
+      this._subprocess.kill();
+      this._subprocess = null;
+    }
+  }
 
   /**
    * Calculate the durations and create a progress bar
@@ -245,6 +250,7 @@ export class Queue {
 
   public leave() {
     this._destroyed = true;
+    this.stop();
     this._connection?.leave();
     this._player.deleteQueue(this._guild.id);
   }

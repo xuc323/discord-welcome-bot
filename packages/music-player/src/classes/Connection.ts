@@ -2,6 +2,7 @@ import type {
   AudioPlayer,
   AudioPlayerError,
   AudioResource,
+  StreamType,
   VoiceConnection,
 } from "@discordjs/voice";
 import {
@@ -11,7 +12,6 @@ import {
   entersState,
   joinVoiceChannel,
   NoSubscriberBehavior,
-  StreamType,
   VoiceConnectionStatus,
 } from "@discordjs/voice";
 import type { StageChannel, VoiceChannel } from "discord.js";
@@ -88,9 +88,9 @@ export class Connection extends EventEmitter {
     this._connection.subscribe(this._player);
   }
 
-  public createAudioStream(stream: Readable, metadata: Song) {
+  public createAudioStream(stream: Readable, type: StreamType, metadata: Song) {
     const resource = createAudioResource(stream, {
-      inputType: StreamType.Arbitrary,
+      inputType: type,
       metadata: metadata,
     });
 
