@@ -157,6 +157,8 @@ export class Queue {
     const resource = this._connection?.createAudioStream(stream, type, song!);
 
     this._connection?.playAudioStream(resource!);
+
+    subprocess.catch((err: Error) => {});
   }
 
   public shuffle() {
