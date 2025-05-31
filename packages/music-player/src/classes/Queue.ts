@@ -26,7 +26,7 @@ export class Queue {
   private _isPlaying: boolean;
   private _repeatMode: RepeatMode;
   private _destroyed: boolean;
-  private _subprocess?: any;
+  private _subprocess?: ReturnType<typeof youtubeDl.exec>;
 
   constructor(player: Player, guild: Guild, channel: TextChannel) {
     this._player = player;
@@ -94,7 +94,7 @@ export class Queue {
       }
 
       this._isPlaying = false;
-      this._subprocess = null;
+      this._subprocess = undefined;
       const oldSong = this._songs.shift();
       if (
         this._songs.length === 0 &&
@@ -195,7 +195,7 @@ export class Queue {
   public stop() {
     if (this._subprocess) {
       this._subprocess.kill();
-      this._subprocess = null;
+      this._subprocess = undefined;
     }
   }
 
