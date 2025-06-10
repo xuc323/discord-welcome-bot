@@ -33,6 +33,8 @@ RUN npm run build
 RUN npm prune --omit=dev
 
 FROM base AS runner
+RUN apk update
+RUN apk add --no-cache python3
 WORKDIR /app
 
 # Don't run production as root
