@@ -79,7 +79,8 @@ export class Queue {
       guildId: channel.guild.id,
       channelId: channel.id,
       adapterCreator: channel.guild.voiceAdapterCreator,
-      selfDeaf: false,
+      selfMute: false,
+      selfDeaf: true,
     });
 
     this._connection = new Connection(conn, channel);
@@ -158,7 +159,9 @@ export class Queue {
 
     this._connection?.playAudioStream(resource!);
 
-    subprocess.catch((err: Error) => {});
+    subprocess.catch((err: Error) => {
+      console.log("Error in subprocess: ", err);
+    });
   }
 
   public shuffle() {
