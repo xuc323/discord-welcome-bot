@@ -5,9 +5,11 @@
     "build": "turbo run build",
     "build:bot": "turbo run build --filter=discord-bot --filter=@repo/database --filter=@repo/music-player",
     "build:docs": "turbo run build --filter=discord-bot-docs",
+    "build:status": "turbo run build --filter=discord-bot-status",
     "dev": "turbo run dev",
     "dev:bot": "turbo run dev --filter=discord-bot --filter=@repo/database --filter=@repo/music-player",
     "dev:docs": "turbo run dev --filter=discord-bot-docs",
+    "dev:status": "turbo run dev --filter=discord-bot-status",
     "lint": "turbo run lint",
     "test": "turbo run test",
     "clean": "turbo run clean"
