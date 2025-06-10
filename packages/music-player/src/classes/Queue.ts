@@ -79,7 +79,8 @@ export class Queue {
       guildId: channel.guild.id,
       channelId: channel.id,
       adapterCreator: channel.guild.voiceAdapterCreator,
-      selfDeaf: false,
+      selfMute: false,
+      selfDeaf: true,
     });
 
     this._connection = new Connection(conn, channel);
