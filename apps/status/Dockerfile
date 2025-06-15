@@ -12,7 +12,7 @@ RUN npm install -g turbo@2
 COPY . .
 
 # Generate a partial monorepo with a pruned lockfile for a target workspace.
-RUN turbo prune discord-bot-docs --docker
+RUN turbo prune discord-bot-status --docker
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM base AS installer
@@ -43,10 +43,10 @@ USER nextjs
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=installer --chown=nextjs:nodejs /app/apps/docs/.next/standalone ./
-COPY --from=installer --chown=nextjs:nodejs /app/apps/docs/.next/static ./apps/docs/.next/static
-# COPY --from=installer --chown=nextjs:nodejs /app/apps/docs/public ./apps/docs/public
+COPY --from=installer --chown=nextjs:nodejs /app/apps/status/.next/standalone ./
+COPY --from=installer --chown=nextjs:nodejs /app/apps/status/.next/static ./apps/status/.next/static
+# COPY --from=installer --chown=nextjs:nodejs /app/apps/status/public ./apps/status/public
 
 EXPOSE 3000
 
-CMD ["node", "apps/docs/server.js"]
+CMD ["node", "apps/status/server.js"]

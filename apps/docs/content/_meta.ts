@@ -1,4 +1,6 @@
-export default {
+import type { MetaRecord } from "nextra";
+
+const meta: MetaRecord = {
   index: { title: "Introduction" },
   host: {
     title: "Hosting",
@@ -13,3 +15,5 @@ export default {
     type: "page",
   },
 };
+
+export default meta;
