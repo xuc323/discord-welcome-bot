@@ -14,12 +14,12 @@
     "pg:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
-    "dotenv": "^16.6.1",
+    "dotenv": "^17.2.1",
     "drizzle-orm": "^0.39.3",
     "pg": "^8.16.2"
   },
   "devDependencies": {
-    "@types/node": "^24.0.8",
+    "@types/node": "^24.1.0",
     "@types/pg": "^8.15.4",
     "drizzle-kit": "^0.30.6",
     "tsup": "^8.5.0",

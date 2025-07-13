@@ -18,13 +18,13 @@
     "@repo/database": "*",
     "@repo/music-player": "*",
     "discord.js": "^14.21.0",
-    "dotenv": "^16.6.1"
+    "dotenv": "^17.2.1"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
-    "@types/node": "^24.0.8",
-    "esbuild": "^0.25.5",
-    "jest": "^30.0.2",
+    "@types/node": "^24.1.0",
+    "esbuild": "^0.25.8",
+    "jest": "^30.0.5",
     "ts-jest": "^29.4.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.20.3",
