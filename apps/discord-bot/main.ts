@@ -6,6 +6,7 @@ import {
   ClientEvents,
   Collection,
   GatewayIntentBits,
+  Partials,
 } from "discord.js";
 import "dotenv/config";
 import BotCommands from "./commands";
@@ -21,11 +22,13 @@ const client: MyClient = new Client({
   intents: [
     GatewayIntentBits.DirectMessages,
     GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.GuildMessageReactions,
     GatewayIntentBits.GuildVoiceStates,
     GatewayIntentBits.MessageContent,
   ],
+  partials: [Partials.Message, Partials.Channel, Partials.Reaction],
   presence: {
     activities: [{ name: "| !help for help", type: ActivityType.Watching }],
     status: "online",
