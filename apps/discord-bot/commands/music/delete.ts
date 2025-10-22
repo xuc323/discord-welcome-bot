@@ -33,6 +33,12 @@ export const basic: Command = {
         );
       }
 
+      if (num === 1) {
+        return message.channel.send(
+          "ERROR: Can't remove the current playing song. Use `!skip` to skip the current song."
+        );
+      }
+
       try {
         // remove function might throw exception
         const song = queue.remove(num - 1);
