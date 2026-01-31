@@ -150,6 +150,7 @@ export class Queue {
       output: "-",
       format: "bestaudio",
       quiet: true,
+      jsRuntimes: "node",
     });
     this._subprocess = subprocess;
 
