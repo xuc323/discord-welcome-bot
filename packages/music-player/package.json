@@ -11,18 +11,18 @@
   },
   "dependencies": {
     "@discordjs/opus": "^0.10.0",
-    "@discordjs/voice": "^0.19.0",
-    "@snazzah/davey": "^0.1.9",
-    "discord.js": "^14.25.1",
+    "@discordjs/voice": "^0.19.2",
+    "@snazzah/davey": "^0.1.12",
+    "discord.js": "^14.26.4",
     "ffmpeg-static": "^5.3.0",
     "play-dl": "^1.9.7",
     "sodium": "^3.0.2",
-    "youtube-dl-exec": "^3.0.30"
+    "youtube-dl-exec": "^3.1.8"
   },
   "devDependencies": {
-    "@types/node": "^25.1.0",
-    "prettier": "^3.8.1",
-    "prettier-plugin-jsdoc": "^1.8.0",
+    "@types/node": "^25.9.4",
+    "prettier": "^3.9.1",
+    "prettier-plugin-jsdoc": "^1.8.1",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3"
   }
