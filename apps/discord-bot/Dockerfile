@@ -1,8 +1,6 @@
-FROM node:22-alpine AS base
+FROM node:22-bookworm-slim AS base
 
 FROM base AS builder
-RUN apk update
-RUN apk add --no-cache libc6-compat
 # Set working directory
 WORKDIR /app
 
@@ -16,8 +14,7 @@ RUN turbo prune discord-bot --docker
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM base AS installer
-RUN apk update
-RUN apk add --no-cache libc6-compat build-base python3 autoconf automake libtool
+RUN apt-get update && apt-get install -y build-essential python3
 WORKDIR /app
 
 ENV TURBO_TELEMETRY_DISABLED=1
@@ -33,13 +30,11 @@ RUN npm run build
 RUN npm prune --omit=dev
 
 FROM base AS runner
-RUN apk update
-RUN apk add --no-cache python3
+RUN apt-get update && apt-get install -y python3
 WORKDIR /app
 
 # Don't run production as root
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 bot
+RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 bot
 USER bot
 
 # Copy app files
