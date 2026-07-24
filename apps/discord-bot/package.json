@@ -17,17 +17,17 @@
   "dependencies": {
     "@repo/database": "*",
     "@repo/music-player": "*",
-    "discord.js": "^14.26.4",
-    "dotenv": "^17.2.3"
+    "discord.js": "^14.27.0",
+    "dotenv": "^17.4.2"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
-    "@types/node": "^25.9.4",
+    "@types/node": "^25.9.5",
     "esbuild": "^0.27.7",
-    "jest": "^30.2.0",
-    "ts-jest": "^29.4.6",
+    "jest": "^30.4.2",
+    "ts-jest": "^29.4.12",
     "ts-node": "^10.9.2",
-    "tsx": "^4.22.4",
+    "tsx": "^4.23.1",
     "typescript": "^5.9.3"
   }
 }

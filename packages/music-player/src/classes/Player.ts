@@ -49,9 +49,7 @@ export class Player extends EventEmitter {
 
     this._client.on("voiceStateUpdate", (oldState, newState) => {
       const queue = this.queues.get(oldState.guild.id);
-      if (!queue || !queue.connection) {
-        return;
-      }
+      if (!queue || !queue.connection) return;
 
       if (
         !newState.channelId &&
@@ -68,12 +66,18 @@ export class Player extends EventEmitter {
 
       // TODO: filter out bot user
       // queue.connection.channel.members.at(0)?.user.bot;
-      if (queue.connection.channel.members.size > 1) {
-        return;
-      }
-
-      queue.leave();
-      this.emit("channelEmpty", queue);
+      if (queue.connection.channel.members.size > 1) return;
+      setTimeout(
+        () => {
+          if (!queue || !queue.connection) return;
+          if (queue.connection.channel.members.size > 1) return;
+          if (queue.connection.channel.members.has(this.client.user!.id)) {
+            queue.leave();
+            this.emit("channelEmpty", queue);
+          }
+        },
+        1000 * 60 * 5
+      );
     });
   }
 
