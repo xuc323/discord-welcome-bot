@@ -17,11 +17,11 @@
     "ffmpeg-static": "^5.3.0",
     "play-dl": "^1.9.7",
     "sodium-native": "^5.1.0",
-    "youtube-dl-exec": "^3.1.12"
+    "youtube-dl-exec": "^3.1.15"
   },
   "devDependencies": {
-    "@types/node": "^25.9.5",
-    "prettier": "^3.9.6",
+    "@types/node": "^25.9.8",
+    "prettier": "^3.9.8",
     "prettier-plugin-jsdoc": "^1.8.1",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3"
